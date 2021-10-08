@@ -1,12 +1,12 @@
-import Main from '../main/main';
+import Main from '../../pages/main/main';
 
 type AppProps = {
-  offersNumber: number
+  offers: number[]
 }
 
-function App({ offersNumber }: AppProps): JSX.Element {
+function App({ offers }: AppProps): JSX.Element {
   return (
-    <Main offersNumber={offersNumber} />
+    <Main offers={offers} />
   );
 }
 
