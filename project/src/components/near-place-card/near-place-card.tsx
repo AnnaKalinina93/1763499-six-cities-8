@@ -1,24 +1,24 @@
 import { Offer } from '../../types/offers';
 import { Link } from 'react-router-dom';
 
-type PlaceCardProps = {
+type NearPlaceCardProps = {
   offer : Offer,
   key : string,
-  handleMouseEnter?: () => void,
-  handleMouseLeave?: () => void,
 }
-
-function PlaceCard({ offer, key, handleMouseEnter, handleMouseLeave }: PlaceCardProps): JSX.Element {
-  const { id, isFavorite, isPremium, previewImage, price, rating, title, type } =offer;
+function NearPlaceCard({ offer, key } : NearPlaceCardProps ): JSX.Element {
+  const {
+    id,
+    isFavorite,
+    previewImage,
+    price,
+    rating,
+    title,
+    type,
+  } = offer;
   const keyValue = key;
   return (
-    <article key = {keyValue} className="cities__place-card place-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      { isPremium ?
-        <div className="place-card__mark">
-          <span>Premium</span>
-        </div> :
-        ''}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+    <article key= {keyValue} className="near-places__card place-card">
+      <div className="near-places__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${id}`}>
           <img
             className="place-card__image"
@@ -35,16 +35,19 @@ function PlaceCard({ offer, key, handleMouseEnter, handleMouseLeave }: PlaceCard
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${isFavorite ? 'place-card__bookmark-button--active' : ''}`} type="button">
+          <button
+            className={`place-card__bookmark-button button ${isFavorite ? 'place-card__bookmark-button--active' : ''}`}
+            type="button"
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
+              <use xlinkHref="#icon-bookmark" />
             </svg>
-            <span className="visually-hidden">To bookmarks</span>
+            <span className="visually-hidden">In bookmarks</span>
           </button>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${Math.round(rating)*20}%` }}></span>
+            <span style={{ width: `${Math.round(rating)*20}%` }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -56,4 +59,5 @@ function PlaceCard({ offer, key, handleMouseEnter, handleMouseLeave }: PlaceCard
     </article>
   );
 }
-export default PlaceCard;
+
+export default NearPlaceCard;
