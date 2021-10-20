@@ -9,8 +9,18 @@ type PlaceCardProps = {
 }
 
 function PlaceCard({ offer, key, handleMouseEnter, handleMouseLeave }: PlaceCardProps): JSX.Element {
-  const { id, isFavorite, isPremium, previewImage, price, rating, title, type } =offer;
+  const {
+    id,
+    isFavorite,
+    isPremium,
+    previewImage,
+    price,
+    rating,
+    title,
+    type,
+  } =offer;
   const keyValue = key;
+
   return (
     <article key = {keyValue} className="cities__place-card place-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       { isPremium ?
