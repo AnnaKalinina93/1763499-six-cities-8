@@ -2,6 +2,7 @@ import { Offers, Offer } from '../../types/offers';
 import { useState } from 'react';
 import Sorting from '../../components/sorting/sorting';
 import PlaceCard from '../../components/place-card/place-card';
+import Map from '../map/map';
 
 type PlacesProp = {
   offers: Offers,
@@ -40,7 +41,10 @@ function CitiesPlacesContainer({offers}: PlacesProp): JSX.Element {
           </div>
         </section>
         <div className="cities__right-section">
-          <section className="cities__map map"></section>
+          <Map
+            offers={offers}
+            activeId={activeOffer}
+          />
         </div>
       </div>
     </div>

@@ -11,12 +11,12 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const RatingTitle  = {
-  5: 'perfect',
-  4:'good',
-  3:'not bad',
-  2:'badly',
+export const ratingMap  = {
   1:'terribly',
+  2:'badly',
+  3:'not bad',
+  4:'good',
+  5:'perfect',
 };
 
 export enum Cities {
@@ -28,4 +28,8 @@ export enum Cities {
   Dusseldorf = 'Dusseldorf',
 }
 
-export const MinReviews = 50;
+export const MIN_REVIEWS = 50;
+
+export const URL_MARKER_DEFAULT = 'img/pin.svg';
+
+export const URL_MARKER_CURRENT = 'img/pin-active.svg';
