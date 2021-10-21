@@ -1,22 +1,27 @@
-
 import {useState, FormEvent, ChangeEvent} from 'react';
 import FormRating from '../../components/form-rating/form-rating';
-import { RatingTitle, MinReviews } from '../../const';
+import { ratingMap, MIN_REVIEWS } from '../../const';
 
 
 type FormCommentProps = {
   onAnswer: (userAnswer:  {
     [key: string]: string;
-}) => void;
+  }) => void;
 }
+
 function FormComment({ onAnswer } : FormCommentProps): JSX.Element {
-  const [formState, setFormState] = useState <{[key:string]:string}>({rating: '0', review: ''});
-  const isDisabled = formState.review.length < MinReviews || formState.rating === '0';
+  const [formState, setFormState] = useState <{[key:string]:string}>({
+    rating: '0',
+    review: '',
+  });
+  const isDisabled = formState.review.length < MIN_REVIEWS || formState.rating === '0';
   const handleChange = ({target}: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = target;
-    setFormState({...formState, [name]: value});
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
   };
-  const RatingTitles = Object.entries(RatingTitle);
 
   return (
     <form className="reviews__form form" action="#" method="post"
@@ -30,11 +35,11 @@ function FormComment({ onAnswer } : FormCommentProps): JSX.Element {
       </label>
       <div className="reviews__rating-form form__rating">
         {
-          RatingTitles.map((value)=> (
+          Object.entries(ratingMap).reverse().map(([key,title])=> (
             <FormRating
-              key={value[0]}
-              count={value[0]}
-              title={value[1]}
+              key={key}
+              count={key}
+              title={title}
               onRatingChange={handleChange}
             />))
         }

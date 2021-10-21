@@ -6,8 +6,8 @@ export const offers: Offers = [
     bedrooms: 3,
     city: {
       location: {
-        latitude: 52.370216,
-        longitude: 4.895168,
+        latitude: 52.390955,
+        longitude: 4.853096,
         zoom: 10,
       },
       name: 'Amsterdam',
@@ -25,8 +25,8 @@ export const offers: Offers = [
     isFavorite: true,
     isPremium: false,
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
       zoom: 8,
     },
     maxAdults: 4,
@@ -40,8 +40,8 @@ export const offers: Offers = [
     bedrooms: 2,
     city: {
       location: {
-        latitude: 52.373246,
-        longitude: 4.896238,
+        latitude: 52.369553,
+        longitude: 4.853096,
         zoom: 10,
       },
       name: 'Amsterdam',
@@ -59,8 +59,8 @@ export const offers: Offers = [
     isFavorite: false,
     isPremium: true,
     location: {
-      latitude: 52.37324655346574,
-      longitude:4.89623824325345,
+      latitude: 52.369553943508,
+      longitude: 4.85309666406198,
       zoom: 8,
     },
     maxAdults: 3,
@@ -74,8 +74,8 @@ export const offers: Offers = [
     bedrooms: 3,
     city: {
       location: {
-        latitude: 52.370216,
-        longitude: 4.895168,
+        latitude: 52.390955,
+        longitude: 4.929309,
         zoom: 10,
       },
       name: 'Amsterdam',
@@ -93,8 +93,8 @@ export const offers: Offers = [
     isFavorite: false,
     isPremium: false,
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
       zoom: 8,
     },
     maxAdults: 4,
@@ -108,8 +108,8 @@ export const offers: Offers = [
     bedrooms: 1,
     city: {
       location: {
-        latitude: 52.832159,
-        longitude: 4.765423,
+        latitude: 52.380955,
+        longitude: 4.939309,
         zoom: 10,
       },
       name: 'Amsterdam',
@@ -127,8 +127,8 @@ export const offers: Offers = [
     isFavorite: true,
     isPremium: true,
     location: {
-      latitude: 52.8321591121133,
-      longitude:4.7654264558245,
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
       zoom: 8,
     },
     maxAdults: 2,
@@ -138,37 +138,4 @@ export const offers: Offers = [
     title: 'Beautiful hotel in river shore',
     type: 'Hotel',
   },
-  {
-    bedrooms: 2,
-    city: {
-      location: {
-        latitude: 51.832159,
-        longitude: 4.648423,
-        zoom: 10,
-      },
-      name: 'Amsterdam',
-    },
-    description: 'Dream house.',
-    goods: ['Heating','Dishwasher','Cable TV'],
-    host: {
-      avatarUrl: 'img/avatar-angelina.jpg',
-      id: nanoid(),
-      isPro: false,
-      name: 'Margo',
-    },
-    id: nanoid(),
-    images: ['img/amsterdam.jpg'],
-    isFavorite: true,
-    isPremium: false,
-    location: {
-      latitude: 51.8321595346574,
-      longitude:4.6484234325345,
-      zoom: 8,
-    },
-    maxAdults: 5,
-    previewImage: 'img/room.jpg',
-    price: 125,
-    rating: 4.5,
-    title: 'Dream house in river shore',
-    type: 'House',
-  }];
+];
