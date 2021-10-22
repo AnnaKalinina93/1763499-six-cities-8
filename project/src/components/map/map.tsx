@@ -1,31 +1,32 @@
-import React, {useRef, useEffect} from 'react';
+import React, { useRef, useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
 import { Icon, Marker} from 'leaflet';
-import {Offers} from '../../types/offers';
+import { Offers } from '../../types/offers';
 import useMap from '../../hooks/useMap';
-import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
+import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT, ICON_SIZE } from '../../const';
 
 type MapProps = {
   offers : Offers,
   activeId : string,
+  className : string,
 }
 
-function Map( { offers, activeId }: MapProps) {
+const defaultCustomIcon = new Icon({
+  iconUrl: URL_MARKER_DEFAULT,
+  iconSize: ICON_SIZE,
+  iconAnchor: [20, 40],
+});
+
+const currentCustomIcon = new Icon({
+  iconUrl: URL_MARKER_CURRENT,
+  iconSize: ICON_SIZE,
+  iconAnchor: [20, 40],
+});
+
+function Map( { offers, activeId, className }: MapProps) :JSX.Element {
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, offers[0]);
-
-  const defaultCustomIcon = new Icon({
-    iconUrl: URL_MARKER_DEFAULT,
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
-
-  const currentCustomIcon = new Icon({
-    iconUrl: URL_MARKER_CURRENT,
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
 
   useEffect(() => {
     if (map) {
@@ -47,7 +48,7 @@ function Map( { offers, activeId }: MapProps) {
 
   return (
     <section
-      className="cities__map map"
+      className={`${className}__map map`}
       ref={mapRef}
     >
     </section>

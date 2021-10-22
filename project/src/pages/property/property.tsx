@@ -2,9 +2,11 @@ import Header from '../../components/header/header';
 import { Offers } from '../../types/offers';
 import { Reviews } from '../../types/reviews';
 import { useParams } from 'react-router-dom';
-import NearPlaceCard from '../../components/near-place-card/near-place-card';
+import PlaceCard from '../../components/place-card/place-card';
 import FormComment from '../../components/form-comment/form-comment';
-import  dayjs from 'dayjs';
+import ReviewsList from '../../components/reviews-list/reviews-list';
+import Map from '../../components/map/map';
+import { ClassName } from '../../const';
 
 type PropertyProps = {
   offers: Offers;
@@ -141,45 +143,7 @@ function Property({ offers, reviews }: PropertyProps): JSX.Element {
                 <h2 className="reviews__title">
                   Reviews &middot; <span className="reviews__amount">{reviews.length}</span>
                 </h2>
-                <ul className="reviews__list">
-                  {reviews.map((review) => {
-                    const keyValueReview = review.id;
-                    return (
-                      <li key={keyValueReview} className="reviews__item">
-                        <div className="reviews__user user">
-                          <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                            <img
-                              className="reviews__avatar user__avatar"
-                              src={review.user.avatarUrl}
-                              width="54"
-                              height="54"
-                              alt="Reviews avatar"
-                            />
-                          </div>
-                          <span className="reviews__user-name">
-                            {review.user.name}
-                          </span>
-                        </div>
-                        <div className="reviews__info">
-                          <div className="reviews__rating rating">
-                            <div className="reviews__stars rating__stars">
-                              <span
-                                style={{
-                                  width: `${Math.round(review.rating) * 20}%`,
-                                }}
-                              />
-                              <span className="visually-hidden">Rating</span>
-                            </div>
-                          </div>
-                          <p className="reviews__text"> {review.comment} </p>
-                          <time className="reviews__time" dateTime={review.date}>
-                            {dayjs(review.date).format('DD MMMM')}
-                          </time>
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <ReviewsList reviews={reviews} />
                 <FormComment  onAnswer={() => {
                   throw new Error('Function \'onAnswer\' isn\'t implemented.');
                 }}
@@ -187,7 +151,11 @@ function Property({ offers, reviews }: PropertyProps): JSX.Element {
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+          <Map
+            offers={offers}
+            activeId={offerActive[0].id}
+            className={ClassName.Property}
+          />
         </section>
 
         <div className="container">
@@ -196,7 +164,7 @@ function Property({ offers, reviews }: PropertyProps): JSX.Element {
               Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-              { offers.filter((offer) => offer !== offerActive[0]).slice(0,3).map((offer) =><NearPlaceCard offer={offer} key = {offer.id}/>)}
+              { offers.filter((offer) => offer !== offerActive[0]).map((offer) =><PlaceCard offer={offer} key = {offer.id} className={ClassName.NearPlaces}/>)}
             </div>
           </section>
         </div>
