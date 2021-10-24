@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Sorting from '../../components/sorting/sorting';
 import PlaceCard from '../../components/place-card/place-card';
 import Map from '../map/map';
+import { TypeCard } from '../../const';
 
 type PlacesProp = {
   offers: Offers,
@@ -36,6 +37,7 @@ function CitiesPlacesContainer({offers}: PlacesProp): JSX.Element {
                 key={offer.id}
                 handleMouseEnter={() => handleMouseEnter(offer)}
                 handleMouseLeave={() => handleMouseLeave()}
+                typeCard={TypeCard.City}
               />
             ))}
           </div>
@@ -44,6 +46,7 @@ function CitiesPlacesContainer({offers}: PlacesProp): JSX.Element {
           <Map
             offers={offers}
             activeId={activeOffer}
+            typeCard={TypeCard.City}
           />
         </div>
       </div>

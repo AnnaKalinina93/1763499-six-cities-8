@@ -2,16 +2,15 @@ import React from 'react';
 import { ChangeEvent } from 'react';
 
 type FormRatingProps = {
-  key: string,
   count: string,
   title: string,
   onRatingChange : ({ target }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void,
 }
 
-function FormRating({ key, count, title, onRatingChange }: FormRatingProps): JSX.Element {
+function FormRating({ count, title, onRatingChange }: FormRatingProps): JSX.Element {
 
   return (
-    <React.Fragment key = {key}>
+    <React.Fragment >
       <input
         className="form__rating-input visually-hidden"
         name="rating"

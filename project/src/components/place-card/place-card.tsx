@@ -1,14 +1,16 @@
 import { Offer } from '../../types/offers';
 import { Link } from 'react-router-dom';
+import cn from 'classnames';
+import { TypeCard } from '../../const';
 
 type PlaceCardProps = {
   offer : Offer,
-  key : string,
+  typeCard: string,
   handleMouseEnter?: () => void,
   handleMouseLeave?: () => void,
 }
 
-function PlaceCard({ offer, key, handleMouseEnter, handleMouseLeave }: PlaceCardProps): JSX.Element {
+function PlaceCard({ offer, typeCard , handleMouseEnter, handleMouseLeave }: PlaceCardProps): JSX.Element {
   const {
     id,
     isFavorite,
@@ -19,16 +21,22 @@ function PlaceCard({ offer, key, handleMouseEnter, handleMouseLeave }: PlaceCard
     title,
     type,
   } =offer;
-  const keyValue = key;
+
+  const placeClass = cn(typeCard === TypeCard.City? 'cities__place-card' : 'near-places__card','place-card');
+  const imgClass = cn(typeCard === TypeCard.City? 'cities__image-wrapper': 'near-places__image-wrapper','place-card__image-wrapper');
 
   return (
-    <article key = {keyValue} className="cities__place-card place-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <article
+      className={placeClass}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       { isPremium ?
         <div className="place-card__mark">
           <span>Premium</span>
         </div> :
         ''}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={imgClass}>
         <Link to={`/offer/${id}`}>
           <img
             className="place-card__image"
