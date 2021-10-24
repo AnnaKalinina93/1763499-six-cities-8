@@ -26,7 +26,11 @@ function PlaceCard({ offer, typeCard , handleMouseEnter, handleMouseLeave }: Pla
   const imgClass = cn(typeCard === TypeCard.City? 'cities__image-wrapper': 'near-places__image-wrapper','place-card__image-wrapper');
 
   return (
-    <article className={placeClass} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <article
+      className={placeClass}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       { isPremium ?
         <div className="place-card__mark">
           <span>Premium</span>
