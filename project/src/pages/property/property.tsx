@@ -6,7 +6,7 @@ import PlaceCard from '../../components/place-card/place-card';
 import FormComment from '../../components/form-comment/form-comment';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
-import { ClassName } from '../../const';
+import { TypeCard } from '../../const';
 
 type PropertyProps = {
   offers: Offers;
@@ -154,7 +154,7 @@ function Property({ offers, reviews }: PropertyProps): JSX.Element {
           <Map
             offers={offers}
             activeId={offerActive[0].id}
-            className={ClassName.Property}
+            typeCard={TypeCard.Property}
           />
         </section>
 
@@ -164,7 +164,16 @@ function Property({ offers, reviews }: PropertyProps): JSX.Element {
               Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-              { offers.filter((offer) => offer !== offerActive[0]).map((offer) =><PlaceCard offer={offer} key = {offer.id} className={ClassName.NearPlaces}/>)}
+              { offers.filter((offer) =>
+                offer !== offerActive[0])
+                .slice(0,3)
+                .map((offer) => (
+                  <PlaceCard
+                    offer={offer}
+                    key = {offer.id}
+                    typeCard={TypeCard.NearPlaces}
+                  />
+                ))}
             </div>
           </section>
         </div>

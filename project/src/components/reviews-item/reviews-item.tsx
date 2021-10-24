@@ -3,12 +3,11 @@ import { Review } from '../../types/reviews';
 
 type ReviewsItemProps = {
   review : Review,
-  key: string,
 }
 
-function ReviewsItem({review , key} : ReviewsItemProps): JSX.Element {
+function ReviewsItem({review} : ReviewsItemProps): JSX.Element {
   return (
-    <li key={key} className="reviews__item">
+    <li className="reviews__item">
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
           <img
