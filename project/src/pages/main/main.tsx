@@ -2,21 +2,35 @@ import CitiesPlacesContainer from '../../components/cities-places-container/citi
 import Header from '../../components/header/header';
 import Tabs from '../../components/tabs/tabs';
 import { Offers } from '../../types/offers';
+import {connect, ConnectedProps} from 'react-redux';
+import {State} from '../../types/state';
+import MainEmpty from '../main-empty/main-empty';
+import cn from 'classnames';
 
-type MainProps = {
-  offers: Offers,
-}
+const mapStateToProps = ({activeCity, offers}: State) => ({
+  activeCity,
+  offers,
+});
 
-function Main({ offers }: MainProps): JSX.Element {
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function Main(props: PropsFromRedux): JSX.Element {
+  const {activeCity , offers } = props;
+  const selectedOffers: Offers = offers.filter((offer) => offer.city.name === activeCity);
+  const classMain =cn('page page--gray page--main', selectedOffers.length?'': 'page__main--index-empty');
 
   return (
     <div className="page page--gray page--main">
       <Header/>
-      <main className="page__main page__main--index">
+      <main className={classMain}>
         <Tabs/>
-        <CitiesPlacesContainer offers={offers} />
+        {selectedOffers.length? <CitiesPlacesContainer offers={ selectedOffers } /> : <MainEmpty/> }
       </main>
     </div>
   );
 }
-export default Main;
+export {Main};
+export default connector(Main);
+

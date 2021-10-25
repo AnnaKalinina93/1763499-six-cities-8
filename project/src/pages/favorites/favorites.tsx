@@ -1,7 +1,7 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import { Offers } from '../../types/offers';
-import { Cities } from '../../const';
+import { citiesList } from '../../const';
 import FavoritesLocations from '../../components/favorites-locations/favorites-locations';
 
 type FavoriteProps = {
@@ -9,12 +9,12 @@ type FavoriteProps = {
 }
 function Favorites({ offers }: FavoriteProps): JSX.Element {
 
-  const ParisOffers = offers.filter((offer) => offer.city.name === Cities.Paris);
-  const CologneOffers = offers.filter((offer) => offer.city.name === Cities.Cologne);
-  const BrusselsOffers = offers.filter((offer) => offer.city.name === Cities.Brussels);
-  const AmsterdamOffers = offers.filter((offer) => offer.city.name === Cities.Amsterdam);
-  const HamburgOffers = offers.filter((offer) => offer.city.name === Cities.Hamburg);
-  const DusseldorfOffers = offers.filter((offer) => offer.city.name === Cities.Dusseldorf);
+  const ParisOffers = offers.filter((offer) => offer.city.name === citiesList.Paris);
+  const CologneOffers = offers.filter((offer) => offer.city.name === citiesList.Cologne);
+  const BrusselsOffers = offers.filter((offer) => offer.city.name === citiesList.Brussels);
+  const AmsterdamOffers = offers.filter((offer) => offer.city.name === citiesList.Amsterdam);
+  const HamburgOffers = offers.filter((offer) => offer.city.name === citiesList.Hamburg);
+  const DusseldorfOffers = offers.filter((offer) => offer.city.name === citiesList.Dusseldorf);
 
   return (
     <div className="page">
