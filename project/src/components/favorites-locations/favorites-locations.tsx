@@ -1,21 +1,24 @@
-import { Offers } from '../../types/offers';
+import { Offer } from '../../types/offers';
 
 type FavoritesLocationsProps = {
-  offers: Offers;
+  city: string | Offer[],
+  offers: string | Offer[];
 };
 
-function FavoritesLocations({ offers }: FavoritesLocationsProps): JSX.Element {
+function FavoritesLocations({ city, offers }: FavoritesLocationsProps): JSX.Element {
+
+  const myOffers = offers as Offer[];
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
           <a className="locations__item-link" href="#">
-            <span>{offers[0].city.name}</span>
+            <span>{city}</span>
           </a>
         </div>
       </div>
       <div className="favorites__places">
-        {offers.map((offer) =>
+        {myOffers.map((offer) =>
           offer.isFavorite ? (
             <article key={offer.id} className="favorites__card place-card">
               <div className="favorites__image-wrapper place-card__image-wrapper">

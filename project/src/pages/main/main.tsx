@@ -17,16 +17,19 @@ const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function Main(props: PropsFromRedux): JSX.Element {
+
   const {activeCity , offers } = props;
   const selectedOffers: Offers = offers.filter((offer) => offer.city.name === activeCity);
-  const classMain =cn('page page--gray page--main', selectedOffers.length?'': 'page__main--index-empty');
+  const classMain =cn('page page--gray page--main', { 'page__main--index-empty': !selectedOffers.length });
 
   return (
     <div className="page page--gray page--main">
       <Header/>
       <main className={classMain}>
         <Tabs/>
-        {selectedOffers.length? <CitiesPlacesContainer offers={ selectedOffers } /> : <MainEmpty/> }
+        {selectedOffers.length?
+          <CitiesPlacesContainer offers={ selectedOffers } /> :
+          <MainEmpty activeCity={activeCity}/> }
       </main>
     </div>
   );

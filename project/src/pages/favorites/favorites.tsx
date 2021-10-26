@@ -9,12 +9,7 @@ type FavoriteProps = {
 }
 function Favorites({ offers }: FavoriteProps): JSX.Element {
 
-  const ParisOffers = offers.filter((offer) => offer.city.name === citiesList.Paris);
-  const CologneOffers = offers.filter((offer) => offer.city.name === citiesList.Cologne);
-  const BrusselsOffers = offers.filter((offer) => offer.city.name === citiesList.Brussels);
-  const AmsterdamOffers = offers.filter((offer) => offer.city.name === citiesList.Amsterdam);
-  const HamburgOffers = offers.filter((offer) => offer.city.name === citiesList.Hamburg);
-  const DusseldorfOffers = offers.filter((offer) => offer.city.name === citiesList.Dusseldorf);
+  const newArray = Object.entries(citiesList).map(([key,city]) => [city , offers.filter((offer) => offer.city.name === city)]);
 
   return (
     <div className="page">
@@ -24,12 +19,7 @@ function Favorites({ offers }: FavoriteProps): JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              { ParisOffers.length !== 0 ? <FavoritesLocations offers={ ParisOffers }/> : ''}
-              { CologneOffers.length !== 0 ? <FavoritesLocations offers={ CologneOffers }/> : ''}
-              { BrusselsOffers.length !== 0 ? <FavoritesLocations offers={ BrusselsOffers }/>: ''}
-              { AmsterdamOffers.length !==0 ? <FavoritesLocations offers={ AmsterdamOffers }/>: ''}
-              { HamburgOffers.length !==0 ? <FavoritesLocations offers={ HamburgOffers }/>: ''}
-              { DusseldorfOffers.length !==0 ? <FavoritesLocations offers={ DusseldorfOffers }/> : ''}
+              {newArray.map(([city,array])=> array.length !== 0 ? <FavoritesLocations city={city} offers={array}/> : '')}
             </ul>
           </section>
         </div>
