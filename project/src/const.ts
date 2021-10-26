@@ -39,3 +39,10 @@ export enum TypeCard {
   Property = 'PROPERTY',
   NearPlaces = 'NEAR-PLACES'
 }
+
+export const sortType = {
+  Popular: 'Popular',
+  PriceLowToHigh: 'Price: low to high',
+  PriceHighToLow: 'Price: high to low',
+  TopRated: 'Top rated first',
+};

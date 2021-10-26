@@ -4,6 +4,7 @@ export enum ActionType {
   СityСhange = 'main/cityChange',
   OffersChange = 'main/offersChange',
   ResetCity = 'main/resetCity',
+  SortTypeChange = 'sort/sortTypeChange',
 }
 
 export type CityChangeAction = {
@@ -20,5 +21,9 @@ export type ResetCityAction = {
   type: ActionType.ResetCity;
 };
 
-export type Actions = CityChangeAction | OffersChangeAction | ResetCityAction;
+export type SortTypeChangeAction = {
+  type:ActionType.SortTypeChange;
+  payload : string;
+}
+export type Actions = CityChangeAction | OffersChangeAction | ResetCityAction | SortTypeChangeAction;
 

@@ -1,4 +1,30 @@
-function Sorting(): JSX.Element {
+import { sortType } from '../../const';
+import { Dispatch } from 'redux';
+import { connect, ConnectedProps } from 'react-redux';
+import { sortTypeChange } from '../../store/action';
+import { State } from '../../types/state';
+import { Actions } from '../../types/action';
+import cn from 'classnames';
+
+const mapStateToProps = ({ activeCity, offers, activeSortType }: State) => ({
+  activeCity,
+  offers,
+  activeSortType,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  onUserAnswer(currentSortType: string) {
+    dispatch(sortTypeChange(currentSortType));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function Sorting(props: PropsFromRedux): JSX.Element {
+  const { activeSortType, onUserAnswer } = props;
+
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
@@ -9,21 +35,27 @@ function Sorting(): JSX.Element {
         </svg>
       </span>
       <ul className="places__options places__options--custom places__options--opened">
-        <li className="places__option places__option--active" tabIndex={0}>
-          Popular
-        </li>
-        <li className="places__option" tabIndex={0}>
-          Price: low to high
-        </li>
-        <li className="places__option" tabIndex={0}>
-          Price: high to low
-        </li>
-        <li className="places__option" tabIndex={0}>
-          Top rated first
-        </li>
+        {Object.entries(sortType).map(([key, currentType]) => {
+          const activeClass = cn('places__option', {
+            'places__option--active': activeSortType === currentType,
+          });
+          return (
+            <li
+              key={key}
+              className={activeClass}
+              tabIndex={0}
+              onClick={(evt)=> {
+                evt.preventDefault();
+                onUserAnswer(currentType);}}
+            >
+              {currentType}
+            </li>
+          );
+        })}
       </ul>
     </form>
   );
 }
 
-export default Sorting;
+export {Sorting};
+export default connector(Sorting);
