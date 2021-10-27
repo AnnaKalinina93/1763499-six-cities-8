@@ -1,4 +1,4 @@
-import {ActionType, CityChangeAction, OffersChangeAction, ResetCityAction} from '../types/action';
+import {ActionType, CityChangeAction, OffersChangeAction, ResetCityAction, SortTypeChangeAction} from '../types/action';
 import { Offers } from '../types/offers';
 
 export const cityChange = (city: string): CityChangeAction => ({
@@ -13,4 +13,9 @@ export const offersChange = (offers: Offers): OffersChangeAction => ({
 
 export const resetCity = (): ResetCityAction => ({
   type: ActionType.ResetCity,
+});
+
+export const sortTypeChange = (sortType: string): SortTypeChangeAction => ({
+  type: ActionType.SortTypeChange,
+  payload: sortType,
 });
