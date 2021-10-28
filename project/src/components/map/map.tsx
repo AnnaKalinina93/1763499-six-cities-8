@@ -30,8 +30,9 @@ const currentCustomIcon = new Icon({
 
 function Map( { offers, activeId, typeCard }: MapProps) :JSX.Element {
 
+  const cityActive = offers[0];
   const mapRef = useRef(null);
-  const map = useMap(mapRef, offers[0]);
+  const map = useMap(mapRef, cityActive);
 
   useEffect(() => {
     if (map) {
@@ -49,9 +50,15 @@ function Map( { offers, activeId, typeCard }: MapProps) :JSX.Element {
           .addTo(map);
       });
     }
+
   }, [map, offers, activeId]);
 
   const mapClass = cn(typeCard === TypeCard.Property ? 'property__map': 'cities__map' ,'map');
+
+  useEffect(() => {
+    const {city} = cityActive;
+    map?.setView([city.location.latitude, city.location.longitude], city.location.zoom);
+  });
 
   return (
     <section

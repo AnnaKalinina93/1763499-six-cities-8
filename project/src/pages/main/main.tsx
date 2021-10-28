@@ -23,13 +23,13 @@ function Main(props: PropsFromRedux): JSX.Element {
   const {activeCity , offers, activeSortType } = props;
   const selectedOffers: Offers = offers.filter((offer) => offer.city.name === activeCity);
   switch (activeSortType) {
-    case sortType.PriceHighToLow:
+    case sortType.priceHighToLow:
       selectedOffers.sort((a,b) => b.price - a.price);
       break;
-    case sortType.PriceLowToHigh:
+    case sortType.priceLowToHigh:
       selectedOffers.sort((a,b) => a.price - b.price);
       break;
-    case sortType.TopRated:
+    case sortType.topRated:
       selectedOffers.sort((a,b) => b.rating - a.rating);
       break;
     default:

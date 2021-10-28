@@ -32,6 +32,7 @@ function useMap(
 
       setMap(instance);
     }
+
   }, [mapRef, map, offer]);
 
   return map;

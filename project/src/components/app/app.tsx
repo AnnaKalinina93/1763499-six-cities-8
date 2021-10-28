@@ -1,3 +1,4 @@
+import {connect, ConnectedProps} from 'react-redux';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import Main from '../../pages/main/main';
@@ -8,13 +9,36 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../../components/private-route/private-route';
 import { Offers } from '../../types/offers';
 import { Reviews } from '../../types/reviews';
+import LoadingScreen from '../loading-screen/loading-screen';
+import {State} from '../../types/state';
 
 type AppProps = {
   offers: Offers;
   reviews: Reviews;
 };
 
-function App({ offers, reviews }: AppProps): JSX.Element {
+const mapStateToProps = ({authorizationStatus, isDataLoaded}: State) => ({
+  authorizationStatus,
+  isDataLoaded,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector> ;
+
+type ConnectedComponentProps = PropsFromRedux & AppProps;
+
+const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
+  authorizationStatus === AuthorizationStatus.Unknown;
+
+function App(props: ConnectedComponentProps): JSX.Element {
+  const {authorizationStatus, isDataLoaded, reviews, offers} = props;
+
+  if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <BrowserRouter>
@@ -29,7 +53,7 @@ function App({ offers, reviews }: AppProps): JSX.Element {
           exact
           path={AppRoute.Favorites}
           render={() =>
-            <Favorites offers={offers} />}
+            <Favorites offers={offers}/>}
           authorizationStatus={AuthorizationStatus.NoAuth}
         >
         </PrivateRoute>
@@ -50,4 +74,5 @@ function App({ offers, reviews }: AppProps): JSX.Element {
   );
 }
 
-export default App;
+export {App};
+export default connector(App);

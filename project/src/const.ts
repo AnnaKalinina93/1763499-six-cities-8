@@ -41,8 +41,14 @@ export enum TypeCard {
 }
 
 export const sortType = {
-  Popular: 'Popular',
-  PriceLowToHigh: 'Price: low to high',
-  PriceHighToLow: 'Price: high to low',
-  TopRated: 'Top rated first',
+  popular: 'Popular',
+  priceLowToHigh: 'Price: low to high',
+  priceHighToLow: 'Price: high to low',
+  topRated: 'Top rated first',
 };
+
+export enum APIRoute {
+  Offers = '/hotels',
+  Login = '/login',
+  Logout = '/logout',
+}
