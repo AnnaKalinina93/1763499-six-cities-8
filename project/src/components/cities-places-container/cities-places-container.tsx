@@ -44,6 +44,7 @@ function CitiesPlacesContainer({offers}: PlacesProp): JSX.Element {
         </section>
         <div className="cities__right-section">
           <Map
+            className={'cities__map'}
             offers={offers}
             activeId={activeOffer}
             typeCard={TypeCard.City}

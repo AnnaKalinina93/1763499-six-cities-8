@@ -11,12 +11,12 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const ratingMap  = {
-  1:'terribly',
-  2:'badly',
-  3:'not bad',
-  4:'good',
-  5:'perfect',
+export const ratingMap = {
+  1: 'terribly',
+  2: 'badly',
+  3: 'not bad',
+  4: 'good',
+  5: 'perfect',
 };
 
 export const citiesList = {
@@ -41,8 +41,14 @@ export enum TypeCard {
 }
 
 export const sortType = {
-  Popular: 'Popular',
-  PriceLowToHigh: 'Price: low to high',
-  PriceHighToLow: 'Price: high to low',
-  TopRated: 'Top rated first',
+  popular: 'Popular',
+  priceLowToHigh: 'Price: low to high',
+  priceHighToLow: 'Price: high to low',
+  topRated: 'Top rated first',
 };
+
+export enum APIRoute {
+  Offers = '/hotels',
+  Login = '/login',
+  Logout = '/logout',
+}

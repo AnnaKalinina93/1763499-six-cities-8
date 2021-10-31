@@ -14,13 +14,12 @@ type AppProps = {
   reviews: Reviews;
 };
 
-function App({ offers, reviews }: AppProps): JSX.Element {
-
+function App({ reviews, offers }: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <Main/>
+          <Main />
         </Route>
         <Route exact path={AppRoute.Login}>
           <Login />
@@ -28,19 +27,12 @@ function App({ offers, reviews }: AppProps): JSX.Element {
         <PrivateRoute
           exact
           path={AppRoute.Favorites}
-          render={() =>
-            <Favorites offers={offers} />}
+          render={() => <Favorites offers={offers} />}
           authorizationStatus={AuthorizationStatus.NoAuth}
         >
         </PrivateRoute>
-        <Route
-          exact
-          path={AppRoute.Room}
-        >
-          <Property
-            offers={offers}
-            reviews={reviews}
-          />
+        <Route exact path={AppRoute.Room}>
+          <Property offers={offers} reviews={reviews} />
         </Route>
         <Route>
           <NotFoundScreen />
