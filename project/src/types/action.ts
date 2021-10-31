@@ -7,14 +7,15 @@ import {
 import {
   AxiosInstance
 } from 'axios';
-import {State} from '../types/state';
+import { State } from '../types/state';
 
 export enum ActionType {
   СityСhange = 'main/cityChange',
-  OffersChange = 'main/offersChange',
+  OffersSucsseded = 'main/offersSucsseded',
+  OffersRequest = 'main/offersRequest',
+  OffersFailed = 'main/offersFailed',
   ResetCity = 'main/resetCity',
   SortTypeChange = 'sort/sortTypeChange',
-  LoadOffers = 'main/loadOffers',
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requireLogout',
 }
@@ -24,10 +25,18 @@ export type CityChangeAction = {
   payload: string;
 };
 
-export type OffersChangeAction = {
-  type: ActionType.OffersChange;
+export type OffersRequestAction = {
+  type: ActionType.OffersRequest;
+}
+
+export type OffersSucssededAction = {
+  type: ActionType.OffersSucsseded;
   payload: Offers
 };
+
+export type OffersFailedAction = {
+  type: ActionType.OffersFailed;
+}
 
 export type ResetCityAction = {
   type: ActionType.ResetCity;
@@ -35,13 +44,8 @@ export type ResetCityAction = {
 
 export type SortTypeChangeAction = {
   type: ActionType.SortTypeChange;
-  payload : string;
+  payload: string;
 }
-
-// export type LoadOffersAction = {
-//   type: ActionType.LoadOffers,
-//   payload: Offers,
-// }
 
 export type RequireAuthorizationAction = {
   type: ActionType.RequireAuthorization;
@@ -51,7 +55,14 @@ export type RequireAuthorizationAction = {
 export type RequireLogoutAction = {
   type: ActionType.RequireLogout;
 }
-export type Actions = CityChangeAction | OffersChangeAction | ResetCityAction | SortTypeChangeAction | RequireAuthorizationAction | RequireLogoutAction;
+export type Actions = CityChangeAction |
+  OffersSucssededAction |
+  OffersRequestAction |
+  OffersFailedAction |
+  ResetCityAction |
+  SortTypeChangeAction |
+  RequireAuthorizationAction |
+  RequireLogoutAction;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 

@@ -6,5 +6,6 @@ export type State = {
   offers: Offers,
   activeSortType: string,
   authorizationStatus: AuthorizationStatus,
-  isDataLoaded: boolean,
+  offersLoading: boolean,
+  offersError: boolean,
 };

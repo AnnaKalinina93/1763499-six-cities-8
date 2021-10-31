@@ -1,15 +1,32 @@
-import {ActionType, CityChangeAction, OffersChangeAction, ResetCityAction, SortTypeChangeAction, RequireAuthorizationAction, RequireLogoutAction} from '../types/action';
+import {
+  ActionType,
+  CityChangeAction,
+  OffersSucssededAction,
+  ResetCityAction,
+  SortTypeChangeAction,
+  RequireAuthorizationAction,
+  RequireLogoutAction, OffersRequestAction,
+  OffersFailedAction
+} from '../types/action';
 import { Offers } from '../types/offers';
-import {AuthorizationStatus} from '../const';
+import { AuthorizationStatus } from '../const';
 
 export const cityChange = (city: string): CityChangeAction => ({
   type: ActionType.СityСhange,
   payload: city,
 });
 
-export const offersChange = (offers: Offers): OffersChangeAction => ({
-  type: ActionType.OffersChange,
+export const offersSucsseded = (offers: Offers): OffersSucssededAction => ({
+  type: ActionType.OffersSucsseded,
   payload: offers,
+});
+
+export const offersRequest = (): OffersRequestAction => ({
+  type: ActionType.OffersRequest,
+});
+
+export const offersFailed = (): OffersFailedAction => ({
+  type: ActionType.OffersFailed,
 });
 
 export const resetCity = (): ResetCityAction => ({
@@ -20,11 +37,6 @@ export const sortTypeChange = (sortType: string): SortTypeChangeAction => ({
   type: ActionType.SortTypeChange,
   payload: sortType,
 });
-
-// export const loadOffers = (offers: Offers) : LoadOffersAction => ({
-//   type: ActionType.LoadOffers,
-//   payload: offers,
-// });
 
 export const requireAuthorization = (authStatus: AuthorizationStatus): RequireAuthorizationAction  => ({
   type: ActionType.RequireAuthorization,

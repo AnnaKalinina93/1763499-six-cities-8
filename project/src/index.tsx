@@ -1,18 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
-// import { offers } from './mocks/offers';
-import {reviews} from './mocks/reviews';
-import {createStore, applyMiddleware} from 'redux';
-import {Provider} from 'react-redux';
-import {reducer} from './store/reducer';
-import {composeWithDevTools} from 'redux-devtools-extension';
+import { reviews } from './mocks/reviews';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import { reducer } from './store/reducer';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import {createAPI} from './services/api';
-import {requireAuthorization} from './store/action';
-import {fetchOffersAction, checkAuthAction} from './store/api-action';
-import {ThunkAppDispatch} from './types/action';
-import {AuthorizationStatus} from './const';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { createAPI } from './services/api';
+import { requireAuthorization } from './store/action';
+import { fetchOffersAction, checkAuthAction } from './store/api-action';
+import { ThunkAppDispatch } from './types/action';
+import { AuthorizationStatus } from './const';
 import { offers } from './mocks/offers';
 
 const api = createAPI(
@@ -26,13 +27,13 @@ const store = createStore(
   ),
 );
 
-
 (store.dispatch as ThunkAppDispatch)(checkAuthAction());
 (store.dispatch as ThunkAppDispatch)(fetchOffersAction());
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store = {store}>
+      <ToastContainer />
       <App offers= {offers} reviews = {reviews}/>
     </Provider>
   </React.StrictMode>,

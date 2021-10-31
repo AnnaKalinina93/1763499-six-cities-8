@@ -1,8 +1,10 @@
+import { Link } from 'react-router-dom';
+
 function Footer(): JSX.Element {
 
   return (
     <footer className="footer container">
-      <a className="footer__logo-link" href="main.html">
+      <Link className="footer__logo-link" to="/">
         <img
           className="footer__logo"
           src="img/logo.svg"
@@ -10,7 +12,7 @@ function Footer(): JSX.Element {
           width="64"
           height="33"
         />
-      </a>
+      </Link>
     </footer>
   );
 }

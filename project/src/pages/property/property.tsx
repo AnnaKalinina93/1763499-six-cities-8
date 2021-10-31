@@ -152,6 +152,7 @@ function Property({ offers, reviews }: PropertyProps): JSX.Element {
             </div>
           </div>
           <Map
+            className={'property__map'}
             offers={offers}
             activeId={offerActive[0].id}
             typeCard={TypeCard.Property}

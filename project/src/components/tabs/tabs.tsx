@@ -1,13 +1,13 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
-import { cityChange } from '../../store/action';
+import { cityChange, sortTypeChange } from '../../store/action';
 import { State } from '../../types/state';
 import { Actions } from '../../types/action';
-import { citiesList } from '../../const';
+import { citiesList, sortType } from '../../const';
 import cn from 'classnames';
 
-const mapStateToProps = ({ activeCity, offers }: State) => ({
+const mapStateToProps = ({ activeCity, offers, activeSortType }: State) => ({
   activeCity,
   offers,
 });
@@ -15,6 +15,7 @@ const mapStateToProps = ({ activeCity, offers }: State) => ({
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onUserAnswer(city: string) {
     dispatch(cityChange(city));
+    dispatch(sortTypeChange(sortType.popular));
   },
 });
 
