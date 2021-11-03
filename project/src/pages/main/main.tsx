@@ -31,13 +31,8 @@ const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function Main(props: PropsFromRedux): JSX.Element {
-  const {
-    activeCity,
-    offers,
-    activeSortType,
-    offersLoading,
-    offersError,
-  } = props;
+  const { activeCity, offers, activeSortType, offersLoading, offersError } =
+    props;
   const selectedOffers: Offers = offers.filter(
     (offer) => offer.city.name === activeCity);
   switch (activeSortType) {
@@ -62,7 +57,7 @@ function Main(props: PropsFromRedux): JSX.Element {
   }
 
   if (!offersLoading && offersError) {
-    return <OffersErrorScreen/>;
+    return <OffersErrorScreen />;
   }
   return (
     <div className="page page--gray page--main">

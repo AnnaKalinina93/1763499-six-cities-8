@@ -1,23 +1,27 @@
 import {
   ActionType,
   CityChangeAction,
-  OffersSucssededAction,
+  OffersSucceededAction,
   ResetCityAction,
   SortTypeChangeAction,
   RequireAuthorizationAction,
   RequireLogoutAction, OffersRequestAction,
-  OffersFailedAction
+  OffersFailedAction,
+  LoginRequestAction,
+  LoginSucceededAction,
+  RedirectToRouteAction,
+  LoginFailedAction
 } from '../types/action';
 import { Offers } from '../types/offers';
-import { AuthorizationStatus } from '../const';
+import { AuthorizationStatus, AppRoute } from '../const';
 
 export const cityChange = (city: string): CityChangeAction => ({
   type: ActionType.СityСhange,
   payload: city,
 });
 
-export const offersSucsseded = (offers: Offers): OffersSucssededAction => ({
-  type: ActionType.OffersSucsseded,
+export const offersSucceeded = (offers: Offers): OffersSucceededAction => ({
+  type: ActionType.OffersSucceeded,
   payload: offers,
 });
 
@@ -38,11 +42,32 @@ export const sortTypeChange = (sortType: string): SortTypeChangeAction => ({
   payload: sortType,
 });
 
-export const requireAuthorization = (authStatus: AuthorizationStatus): RequireAuthorizationAction  => ({
+export const requireAuthorization = (authStatus: AuthorizationStatus): RequireAuthorizationAction => ({
   type: ActionType.RequireAuthorization,
   payload: authStatus,
 });
 
 export const requireLogout = (): RequireLogoutAction => ({
   type: ActionType.RequireLogout,
+});
+
+export const loginRequest = (): LoginRequestAction => ({
+  type: ActionType.LoginRequest,
+});
+
+export const loginSucceeded = (email: string, password: string): LoginSucceededAction => ({
+  type: ActionType.LoginSucceeded,
+  payload: {
+    email,
+    password,
+  },
+});
+
+export const loginFailed = (): LoginFailedAction => ({
+  type: ActionType.LoginFailed,
+});
+
+export const redirectToRoute = (url: AppRoute): RedirectToRouteAction => ({
+  type: ActionType.RedirectToRoute,
+  payload: url,
 });

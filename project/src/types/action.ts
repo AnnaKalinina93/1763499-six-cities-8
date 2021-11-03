@@ -4,20 +4,23 @@ import {
   ThunkAction,
   ThunkDispatch
 } from 'redux-thunk';
-import {
-  AxiosInstance
-} from 'axios';
+import { AxiosInstance } from 'axios';
 import { State } from '../types/state';
+import { AppRoute } from '../const';
 
 export enum ActionType {
   СityСhange = 'main/cityChange',
-  OffersSucsseded = 'main/offersSucsseded',
+  OffersSucceeded = 'main/offersSucceeded',
   OffersRequest = 'main/offersRequest',
   OffersFailed = 'main/offersFailed',
   ResetCity = 'main/resetCity',
   SortTypeChange = 'sort/sortTypeChange',
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requireLogout',
+  LoginRequest = 'login/loginRequest',
+  LoginSucceeded = 'login/loginSucceeded',
+  LoginFailed = 'login/loginFailed',
+  RedirectToRoute = 'app/redirectToRoute',
 }
 
 export type CityChangeAction = {
@@ -29,8 +32,8 @@ export type OffersRequestAction = {
   type: ActionType.OffersRequest;
 }
 
-export type OffersSucssededAction = {
-  type: ActionType.OffersSucsseded;
+export type OffersSucceededAction = {
+  type: ActionType.OffersSucceeded;
   payload: Offers
 };
 
@@ -55,14 +58,40 @@ export type RequireAuthorizationAction = {
 export type RequireLogoutAction = {
   type: ActionType.RequireLogout;
 }
+
+export type LoginRequestAction = {
+  type: ActionType.LoginRequest;
+}
+
+export type LoginSucceededAction = {
+  type: ActionType.LoginSucceeded;
+  payload: {
+    email: string,
+    password: string,
+  };
+}
+
+export type LoginFailedAction = {
+  type: ActionType.LoginFailed;
+};
+
+export type RedirectToRouteAction = {
+  type: ActionType.RedirectToRoute;
+  payload: AppRoute;
+};
+
 export type Actions = CityChangeAction |
-  OffersSucssededAction |
+  OffersSucceededAction |
   OffersRequestAction |
   OffersFailedAction |
   ResetCityAction |
   SortTypeChangeAction |
   RequireAuthorizationAction |
-  RequireLogoutAction;
+  RequireLogoutAction |
+  LoginRequestAction |
+  LoginSucceededAction |
+  LoginFailedAction |
+  RedirectToRouteAction;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 

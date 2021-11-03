@@ -1,0 +1,12 @@
+.error {
+  border-color: rgb(255, 0, 0);
+}
+.error:focus {
+  outline: 0;
+  border-color: rgb(255, 0, 0);
+}
+
+.textError {
+  color: red;
+  font-size: 0.8em;
+}

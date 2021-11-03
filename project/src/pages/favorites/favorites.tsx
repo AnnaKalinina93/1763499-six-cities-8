@@ -5,11 +5,14 @@ import { citiesList } from '../../const';
 import FavoritesLocations from '../../components/favorites-locations/favorites-locations';
 
 type FavoriteProps = {
-  offers: Offers,
-}
+  offers: Offers;
+  //onReplayButtonClick: () => void;
+};
 function Favorites({ offers }: FavoriteProps): JSX.Element {
-
-  const newArray = Object.entries(citiesList).map(([key,city]) => [city , offers.filter((offer) => offer.city.name === city)]);
+  const newArray = Object.entries(citiesList).map(([key, city]) => [
+    city,
+    offers.filter((offer) => offer.city.name === city),
+  ]);
 
   return (
     <div className="page">
@@ -19,7 +22,12 @@ function Favorites({ offers }: FavoriteProps): JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {newArray.map(([city,array])=> array.length !== 0 ? <FavoritesLocations city={city} offers={array}/> : '')}
+              {newArray.map(([city, array]) =>
+                array.length !== 0 ? (
+                  <FavoritesLocations city={city} offers={array} />
+                ) : (
+                  ''
+                ))}
             </ul>
           </section>
         </div>

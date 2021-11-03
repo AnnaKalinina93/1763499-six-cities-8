@@ -12,7 +12,7 @@ function FavoritesLocations({ city, offers }: FavoritesLocationsProps): JSX.Elem
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
-          <a className="locations__item-link" href="#">
+          <a className="locations__item-link" href="/#">
             <span>{city}</span>
           </a>
         </div>
@@ -22,7 +22,7 @@ function FavoritesLocations({ city, offers }: FavoritesLocationsProps): JSX.Elem
           offer.isFavorite ? (
             <article key={offer.id} className="favorites__card place-card">
               <div className="favorites__image-wrapper place-card__image-wrapper">
-                <a href="#">
+                <a href="/#">
                   <img
                     className="place-card__image"
                     src={offer.previewImage}
