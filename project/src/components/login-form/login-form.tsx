@@ -27,64 +27,60 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
+type InputProps = {
+  value: string;
+  error: boolean;
+  regex: RegExp;
+  touched: boolean;
+  errorText : string;
+}
+
+type FormStateProps = { [key: string]: InputProps};
 function LoginForm({ loginLoading, onSubmit }: PropsFromRedux): JSX.Element {
-  const [formState, setFormState] = useState({
+  const [formState, setFormState] = useState<FormStateProps>({
     email: {
       value: '',
       error: false,
-      tach: false,
+      errorText: 'Введите корректный E-mail.',
+      regex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      touched: false,
     },
     password: {
       value: '',
-      error: true,
-      tach: false,
+      error: false,
+      errorText: 'Пароль должен содержать минимум 2 символа и цифру.',
+      regex:/^(?=.*[0-9])(?=.*[a-z]).{3,}$/,
+      touched: false,
     },
   });
-  const isDisabled =
-    formState.password.error || !formState.email.tach || loginLoading;
+
+  const isDisabled = loginLoading || formState.email.error || formState.password.error || !formState.email.touched || !formState.password.touched;
+
   const handleChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = target;
-    const validPassword = /^(?=.*[0-9])(?=.*[a-z]).{3,}$/;
-    setFormState({
-      ...formState,
-      [name]: {
-        value: value,
-        error: false,
-        tach: true,
-      },
-    });
-
-    if (name === Object.keys(formField)[1]) {
-      !validPassword.test(value)
-        ? setFormState({
-          ...formState,
-          [name]: {
-            value: value,
-            error: true,
-            tach: true,
-          },
-        })
-        : setFormState({
-          ...formState,
-          [name]: {
-            value: value,
-            error: false,
-            tach: true,
-          },
-        });
-    }
-
-    if (name === Object.keys(formField)[0] && value === '') {
+    const rule = formState[name].regex;
+    const isFieldValid = rule.test(value);
+    isFieldValid ?
       setFormState({
         ...formState,
         [name]: {
+          ...formState[name],
+          value: value,
+          error: false,
+          touched: true,
+        },
+      }) :
+      setFormState({
+        ...formState,
+        [name]: {
+          ...formState[name],
           value: value,
           error: true,
-          tach: false,
+          touched: true,
         },
       });
-    }
   };
+
   return (
     <section className="login">
       <h1 className="login__title">Sign in</h1>
@@ -102,10 +98,7 @@ function LoginForm({ loginLoading, onSubmit }: PropsFromRedux): JSX.Element {
       >
         {Object.entries(formField).map(([key, value]) => {
           const classInput = cn('login__input form__input', {
-            error:
-              key === 'password' &&
-              formState.password.tach &&
-              formState.password.error,
+            error: formState[key].error && formState[key].touched,
           });
           return (
             <div key={key} className="login__input-wrapper form__input-wrapper">
@@ -117,15 +110,12 @@ function LoginForm({ loginLoading, onSubmit }: PropsFromRedux): JSX.Element {
                 placeholder={value}
                 onChange={handleChange}
               />
-              {key === 'password' &&
-              formState.password.error &&
-              formState.password.tach ? (
-                  <p className="textError">
-                  Пароль должен содержать минимум 2 символа и цифру
-                  </p>
-                ) : (
-                  ''
-                )}
+              { formState[key].error && formState[key].touched &&
+              (
+                <p className="textError">
+                  {formState[key].errorText}
+                </p>
+              )}
             </div>
           );
         })}

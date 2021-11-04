@@ -10,5 +10,6 @@ export type State = {
   offersError: boolean,
   email: string,
   password: string,
+  avatarUrl: string,
   loginLoading: boolean,
 };

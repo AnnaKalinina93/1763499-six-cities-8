@@ -55,11 +55,12 @@ export const loginRequest = (): LoginRequestAction => ({
   type: ActionType.LoginRequest,
 });
 
-export const loginSucceeded = (email: string, password: string): LoginSucceededAction => ({
+export const loginSucceeded = (email: string, password: string, avatarUrl: string): LoginSucceededAction => ({
   type: ActionType.LoginSucceeded,
   payload: {
     email,
     password,
+    avatarUrl,
   },
 });
 

@@ -15,10 +15,14 @@ import { saveToken, dropToken, Token } from '../services/token';
 import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { ServerOffers } from '../types/offers';
 import { AuthData } from '../types/auth-data';
-import { adaptToClient } from '../services/adapter';
+import { adaptToClient, adaptToUser } from '../services/adapter';
+import { AuthInfoServer } from '../types/users';
 
-const LOGIN_FAIL_MESSAGE = 'Не получилось авторизоваться, попробуйте еще раз.';
-const AUTH_FAIL_MESSAGE = 'Вы не авторизованы, не забудьте авторизоваться.';
+const errorMessages = {
+  authorization: 'Вы не авторизованы, не забудьте авторизоваться.',
+  login: 'Не получилось авторизоваться, попробуйте еще раз.',
+  logout: 'Не удается выйти из аккаунта, попробуйте еще раз.',
+};
 
 export const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _, api): Promise<void> => {
@@ -35,11 +39,12 @@ export const fetchOffersAction = (): ThunkActionResult =>
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _, api) => {
     try {
-      const { data: { email } } = await api.get<{ email: string }>(APIRoute.Login);
+      const { data } = await api.get<AuthInfoServer>(APIRoute.Login);
+      const users = adaptToUser(data);
+      dispatch(loginSucceeded(users.email, '', users.avatarUrl));
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      dispatch(loginSucceeded(email, ''));
     } catch {
-      toast.info(AUTH_FAIL_MESSAGE);
+      toast.info(errorMessages.authorization);
     }
   };
 
@@ -49,20 +54,27 @@ export const loginAction = ({ email, password }: AuthData): ThunkActionResult =>
     try {
       const { data: { token } } = await api.post<{ token: Token }>(APIRoute.Login, { email, password });
       saveToken(token);
+      const { data } = await api.get<AuthInfoServer>(APIRoute.Login);
+      const users = adaptToUser(data);
+      dispatch(loginSucceeded(email, password, users.avatarUrl));
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      dispatch(loginSucceeded(email, password));
       dispatch(redirectToRoute(AppRoute.Main));
     } catch {
       dispatch(loginFailed());
-      toast.info(LOGIN_FAIL_MESSAGE);
+      toast.info(errorMessages.login);
     }
   };
 
 export const logoutAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    api.delete(APIRoute.Logout);
-    dropToken();
-    dispatch(requireLogout());
-    dispatch(loginSucceeded('', ''));
-    dispatch(redirectToRoute(AppRoute.Main));
+    try{
+      api.delete(APIRoute.Logout);
+      dropToken();
+      dispatch(requireLogout());
+      dispatch(loginSucceeded('', '', ''));
+      dispatch(redirectToRoute(AppRoute.Main));
+      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    } catch {
+      toast.info(errorMessages.logout);
+    }
   };

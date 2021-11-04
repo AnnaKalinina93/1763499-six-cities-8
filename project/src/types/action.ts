@@ -68,6 +68,7 @@ export type LoginSucceededAction = {
   payload: {
     email: string,
     password: string,
+    avatarUrl: string,
   };
 }
 

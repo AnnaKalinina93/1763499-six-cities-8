@@ -11,6 +11,7 @@ const initialState = {
   offersError: false,
   email: '',
   password: '',
+  avatarUrl:'',
   loginLoading: false,
 };
 
@@ -47,7 +48,13 @@ const reducer = (state: State = initialState, action: Actions): State => {
         loginLoading: false,
       };
     case ActionType.RequireLogout:
-      return { ...state, authorizationStatus: AuthorizationStatus.NoAuth };
+      return {
+        ...state,
+        authorizationStatus: AuthorizationStatus.NoAuth,
+        email: '',
+        password: '',
+        avatarUrl:'',
+      };
     case ActionType.LoginRequest:
       return { ...state, loginLoading: true };
     case ActionType.LoginSucceeded:
@@ -55,6 +62,7 @@ const reducer = (state: State = initialState, action: Actions): State => {
         ...state,
         email: action.payload.email,
         password: action.payload.password,
+        avatarUrl: action.payload.avatarUrl,
         loginLoading: false,
       };
     case ActionType.LoginFailed:

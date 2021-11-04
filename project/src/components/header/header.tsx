@@ -13,7 +13,7 @@ function Header(): JSX.Element {
           <div className="header__left">
             <Logo />
           </div>
-          {location !== AppRoute.Login ? <HeaderNav /> : ''}
+          {location !== AppRoute.Login && <HeaderNav />}
         </div>
       </div>
     </header>
