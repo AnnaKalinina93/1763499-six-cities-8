@@ -1,4 +1,5 @@
 import { Offer, ServerOffer } from '../types/offers';
+import { AuthInfo, AuthInfoServer } from '../types/users';
 
 export function adaptToClient( offer: ServerOffer): Offer {
   const adaptedOffer =  Object.assign(
@@ -27,4 +28,19 @@ export function adaptToClient( offer: ServerOffer): Offer {
   delete adaptedOffer['preview_image'];
 
   return adaptedOffer as Offer;
+}
+
+export function adaptToUser (data: AuthInfoServer) : AuthInfo {
+  const adaptedAuthInfo = Object.assign(
+    {},
+    data,
+    {
+      avatarUrl: data['avatar_url'],
+      isPro: data['is_pro'],
+    });
+
+  delete adaptedAuthInfo['avatar_url'];
+  delete adaptedAuthInfo['is_pro'];
+
+  return adaptedAuthInfo as AuthInfo;
 }

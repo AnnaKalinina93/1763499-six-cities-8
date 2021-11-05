@@ -28,6 +28,14 @@ export const citiesList = {
   Dusseldorf: 'Dusseldorf',
 };
 
+export type CitiesList = {
+  Paris: string,
+  Cologne: string,
+  Brussels: string,
+  Amsterdam: string,
+  Hamburg: string,
+  Dusseldorf: string,
+}
 export const MIN_REVIEWS = 50;
 
 export const URL_MARKER_DEFAULT = 'img/pin.svg';
@@ -51,4 +59,5 @@ export enum APIRoute {
   Offers = '/hotels',
   Login = '/login',
   Logout = '/logout',
+  Favorites = '/favorites',
 }

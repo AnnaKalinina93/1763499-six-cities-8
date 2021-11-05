@@ -9,6 +9,10 @@ const initialState = {
   authorizationStatus: AuthorizationStatus.Unknown,
   offersLoading: false,
   offersError: false,
+  email: '',
+  password: '',
+  avatarUrl:'',
+  loginLoading: false,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -19,9 +23,8 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {
         ...state,
         offersLoading: true,
-        offersError: false,
       };
-    case ActionType.OffersSucsseded:
+    case ActionType.OffersSucceeded:
       return {
         ...state,
         offers: action.payload,
@@ -42,9 +45,28 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {
         ...state,
         authorizationStatus: action.payload,
+        loginLoading: false,
       };
     case ActionType.RequireLogout:
-      return { ...state, authorizationStatus: AuthorizationStatus.NoAuth };
+      return {
+        ...state,
+        authorizationStatus: AuthorizationStatus.NoAuth,
+        email: '',
+        password: '',
+        avatarUrl:'',
+      };
+    case ActionType.LoginRequest:
+      return { ...state, loginLoading: true };
+    case ActionType.LoginSucceeded:
+      return {
+        ...state,
+        email: action.payload.email,
+        password: action.payload.password,
+        avatarUrl: action.payload.avatarUrl,
+        loginLoading: false,
+      };
+    case ActionType.LoginFailed:
+      return { ...state, loginLoading: false };
     default:
       return state;
   }

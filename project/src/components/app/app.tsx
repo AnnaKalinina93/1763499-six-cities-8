@@ -1,5 +1,5 @@
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { Switch, Route,  Router as BrowserRouter } from 'react-router-dom';
+import { AppRoute } from '../../const';
 import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
 import Favorites from '../../pages/favorites/favorites';
@@ -8,6 +8,7 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../../components/private-route/private-route';
 import { Offers } from '../../types/offers';
 import { Reviews } from '../../types/reviews';
+import browserHistory from '../../browser-history';
 
 type AppProps = {
   offers: Offers;
@@ -16,7 +17,7 @@ type AppProps = {
 
 function App({ reviews, offers }: AppProps): JSX.Element {
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path={AppRoute.Main}>
           <Main />
@@ -28,7 +29,6 @@ function App({ reviews, offers }: AppProps): JSX.Element {
           exact
           path={AppRoute.Favorites}
           render={() => <Favorites offers={offers} />}
-          authorizationStatus={AuthorizationStatus.NoAuth}
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>

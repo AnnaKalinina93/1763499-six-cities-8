@@ -8,4 +8,8 @@ export type State = {
   authorizationStatus: AuthorizationStatus,
   offersLoading: boolean,
   offersError: boolean,
+  email: string,
+  password: string,
+  avatarUrl: string,
+  loginLoading: boolean,
 };
