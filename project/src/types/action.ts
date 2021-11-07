@@ -1,4 +1,4 @@
-import { Offers } from '../types/offers';
+import { Offer, Offers } from '../types/offers';
 import { AuthorizationStatus } from '../const';
 import {
   ThunkAction,
@@ -7,6 +7,7 @@ import {
 import { AxiosInstance } from 'axios';
 import { State } from '../types/state';
 import { AppRoute } from '../const';
+import { Reviews } from './reviews';
 
 export enum ActionType {
   СityСhange = 'main/cityChange',
@@ -21,6 +22,15 @@ export enum ActionType {
   LoginSucceeded = 'login/loginSucceeded',
   LoginFailed = 'login/loginFailed',
   RedirectToRoute = 'app/redirectToRoute',
+  OfferRequest = 'property/offerRequest',
+  OfferSucceeded = 'property/offerSucceeded',
+  OfferFailed = 'property/offerFailed',
+  NearbyOffersRequest = 'property/nearbyOffersRequest',
+  NearbyOffersSucceeded = 'property/nearbyOffersSucceeded',
+  NearbyOffersFailed = 'property/nearbyOffersFailed',
+  CommentsRequest = 'property/commentsRequest',
+  CommentsSucceeded = 'property/commentsSucceeded',
+  CommentsFailed = 'property/commentsFailed',
 }
 
 export type CityChangeAction = {
@@ -39,6 +49,19 @@ export type OffersSucceededAction = {
 
 export type OffersFailedAction = {
   type: ActionType.OffersFailed;
+}
+
+export type OfferRequestAction = {
+  type: ActionType.OfferRequest;
+}
+
+export type OfferSucceededAction = {
+  type: ActionType.OfferSucceeded;
+  payload: Offer;
+}
+
+export type OfferFailedAction = {
+  type: ActionType.OfferFailed;
 }
 
 export type ResetCityAction = {
@@ -81,6 +104,32 @@ export type RedirectToRouteAction = {
   payload: AppRoute;
 };
 
+export type NearbyOffersRequestAction = {
+  type: ActionType.NearbyOffersRequest;
+};
+
+export type NearbyOffersSucceededAction = {
+  type: ActionType.NearbyOffersSucceeded;
+  payload: Offers;
+};
+
+export type NearbyOffersFailedAction = {
+  type: ActionType.NearbyOffersFailed;
+};
+
+export type CommentsRequestAction = {
+  type: ActionType.CommentsRequest;
+};
+
+export type CommentsSucceededAction = {
+  type: ActionType.CommentsSucceeded;
+  payload: Reviews;
+};
+
+export type CommentsFailedAction = {
+  type: ActionType.CommentsFailed;
+};
+
 export type Actions = CityChangeAction |
   OffersSucceededAction |
   OffersRequestAction |
@@ -92,7 +141,16 @@ export type Actions = CityChangeAction |
   LoginRequestAction |
   LoginSucceededAction |
   LoginFailedAction |
-  RedirectToRouteAction;
+  RedirectToRouteAction |
+  OfferRequestAction |
+  OfferSucceededAction |
+  OfferFailedAction |
+  NearbyOffersRequestAction |
+  NearbyOffersSucceededAction |
+  NearbyOffersFailedAction |
+  CommentsRequestAction |
+  CommentsSucceededAction |
+  CommentsFailedAction;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 

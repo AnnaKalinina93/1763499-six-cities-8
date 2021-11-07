@@ -10,10 +10,20 @@ import {
   LoginRequestAction,
   LoginSucceededAction,
   RedirectToRouteAction,
-  LoginFailedAction
+  LoginFailedAction,
+  OfferRequestAction,
+  OfferSucceededAction,
+  OfferFailedAction,
+  NearbyOffersRequestAction,
+  NearbyOffersSucceededAction,
+  NearbyOffersFailedAction,
+  CommentsRequestAction,
+  CommentsSucceededAction,
+  CommentsFailedAction
 } from '../types/action';
-import { Offers } from '../types/offers';
+import { Offer, Offers } from '../types/offers';
 import { AuthorizationStatus, AppRoute } from '../const';
+import { Reviews } from '../types/reviews';
 
 export const cityChange = (city: string): CityChangeAction => ({
   type: ActionType.СityСhange,
@@ -31,6 +41,19 @@ export const offersRequest = (): OffersRequestAction => ({
 
 export const offersFailed = (): OffersFailedAction => ({
   type: ActionType.OffersFailed,
+});
+
+export const offerRequest = (): OfferRequestAction => ({
+  type: ActionType.OfferRequest,
+});
+
+export const offerSucceeded = (offer: Offer): OfferSucceededAction => ({
+  type: ActionType.OfferSucceeded,
+  payload: offer,
+});
+
+export const offerFailed = (): OfferFailedAction => ({
+  type: ActionType.OfferFailed,
 });
 
 export const resetCity = (): ResetCityAction => ({
@@ -71,4 +94,30 @@ export const loginFailed = (): LoginFailedAction => ({
 export const redirectToRoute = (url: AppRoute): RedirectToRouteAction => ({
   type: ActionType.RedirectToRoute,
   payload: url,
+});
+
+export const nearbyOffersRequest = (): NearbyOffersRequestAction => ({
+  type: ActionType.NearbyOffersRequest,
+});
+
+export const nearbyOffersSucceeded = (offers: Offers): NearbyOffersSucceededAction => ({
+  type: ActionType.NearbyOffersSucceeded,
+  payload: offers,
+});
+
+export const nearbyOffersFailed = (): NearbyOffersFailedAction => ({
+  type: ActionType.NearbyOffersFailed,
+});
+
+export const commentsRequest = (): CommentsRequestAction => ({
+  type: ActionType.CommentsRequest,
+});
+
+export const commentsSucceeded = (reviews: Reviews): CommentsSucceededAction => ({
+  type: ActionType.CommentsSucceeded,
+  payload: reviews,
+});
+
+export const commentsFailed = (): CommentsFailedAction => ({
+  type: ActionType.CommentsFailed,
 });

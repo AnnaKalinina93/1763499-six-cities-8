@@ -9,19 +9,32 @@ import {
   requireLogout,
   redirectToRoute,
   loginRequest,
-  loginFailed
+  loginFailed,
+  offerSucceeded,
+  offerRequest,
+  offerFailed,
+  nearbyOffersSucceeded,
+  nearbyOffersRequest,
+  nearbyOffersFailed,
+  commentsRequest,
+  commentsSucceeded,
+  commentsFailed
 } from './action';
 import { saveToken, dropToken, Token } from '../services/token';
 import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
-import { ServerOffers } from '../types/offers';
+import { ServerOffers, ServerOffer } from '../types/offers';
 import { AuthData } from '../types/auth-data';
-import { adaptToClient, adaptToUser } from '../services/adapter';
+import { adaptToClient, adaptToComments, adaptToUser } from '../services/adapter';
 import { AuthInfoServer } from '../types/users';
+import { ReviewsServer, PostReview } from '../types/reviews';
 
 const errorMessages = {
   authorization: 'Вы не авторизованы, не забудьте авторизоваться.',
   login: 'Не получилось авторизоваться, попробуйте еще раз.',
   logout: 'Не удается выйти из аккаунта, попробуйте еще раз.',
+  comments: 'Не удалось загрузить отзывы, попробуйте перезагрузить страницу.',
+  nearbyOffers: 'Не удалось загрузить места поблизости, попробуйте перезагрузить страницу.',
+  postComment: 'Не удалось загрузить отзыв, попробуйте еще раз',
 };
 
 export const fetchOffersAction = (): ThunkActionResult =>
@@ -33,6 +46,31 @@ export const fetchOffersAction = (): ThunkActionResult =>
       dispatch(offersSucceeded(offers));
     } catch {
       dispatch(offersFailed());
+    }
+  };
+
+export const fetchOfferAction = (id: string): ThunkActionResult =>
+  async (dispatch, _, api): Promise<void> => {
+    dispatch(offerRequest());
+    try {
+      const { data } = await api.get<ServerOffer>(`${APIRoute.Offers}/${id}`);
+      const offer = adaptToClient(data);
+      dispatch(offerSucceeded(offer));
+    } catch {
+      dispatch(offerFailed());
+    }
+  };
+
+export const fetchNearbyOffers = (id: string): ThunkActionResult =>
+  async (dispatch, _, api): Promise<void> => {
+    dispatch(nearbyOffersRequest());
+    try {
+      const { data } = await api.get<ServerOffers>(`${APIRoute.Offers}/${id}/nearby`);
+      const offers = data.map((offer) => adaptToClient(offer));
+      dispatch(nearbyOffersSucceeded(offers));
+    } catch {
+      dispatch(nearbyOffersFailed());
+      toast.info(errorMessages.nearbyOffers);
     }
   };
 
@@ -66,7 +104,7 @@ export const loginAction = ({ email, password }: AuthData): ThunkActionResult =>
   };
 
 export const logoutAction = (): ThunkActionResult =>
-  async (dispatch, _getState, api) => {
+  async (dispatch, _, api) => {
     try{
       api.delete(APIRoute.Logout);
       dropToken();
@@ -76,5 +114,31 @@ export const logoutAction = (): ThunkActionResult =>
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     } catch {
       toast.info(errorMessages.logout);
+    }
+  };
+
+export const fetchComments = (id: string): ThunkActionResult =>
+  async (dispatch, _, api): Promise<void> => {
+    dispatch(commentsRequest());
+    try{
+      const { data } = await api.get<ReviewsServer>(`${APIRoute.Comments}/${id}`);
+      const reviews = data.map((review)=> adaptToComments(review));
+      dispatch(commentsSucceeded(reviews));
+    } catch {
+      dispatch(commentsFailed());
+      toast.info(errorMessages.comments);
+    }
+  };
+
+export const postingComments = (id:string,{comment, rating}: PostReview):ThunkActionResult =>
+  async (dispatch, _, api) => {
+    try{
+      await api.post<PostReview>(`${APIRoute.Comments}/${id}`, {comment, rating});
+      const { data } = await api.get<ReviewsServer>(`${APIRoute.Comments}/${id}`);
+      const reviews = data.map((review)=> adaptToComments(review));
+      dispatch(commentsSucceeded(reviews));
+    } catch {
+      dispatch(commentsFailed());
+      toast.info(errorMessages.postComment);
     }
   };

@@ -1,4 +1,4 @@
-import {useState, FormEvent, ChangeEvent} from 'react';
+import { useState, FormEvent, ChangeEvent } from 'react';
 import FormRating from '../../components/form-rating/form-rating';
 import { ratingMap, MIN_REVIEWS } from '../../const';
 
@@ -28,6 +28,10 @@ function FormComment({ onAnswer } : FormCommentProps): JSX.Element {
       onSubmit={(evt: FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
         onAnswer(formState);
+        setFormState({
+          rating: '0',
+          review: '',
+        });
       }}
     >
       <label className="reviews__label form__label" htmlFor="review">

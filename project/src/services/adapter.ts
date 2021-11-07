@@ -1,4 +1,5 @@
 import { Offer, ServerOffer } from '../types/offers';
+import { Review, ReviewServer } from '../types/reviews';
 import { AuthInfo, AuthInfoServer } from '../types/users';
 
 export function adaptToClient( offer: ServerOffer): Offer {
@@ -30,7 +31,7 @@ export function adaptToClient( offer: ServerOffer): Offer {
   return adaptedOffer as Offer;
 }
 
-export function adaptToUser (data: AuthInfoServer) : AuthInfo {
+export function adaptToUser (data: AuthInfoServer): AuthInfo {
   const adaptedAuthInfo = Object.assign(
     {},
     data,
@@ -43,4 +44,25 @@ export function adaptToUser (data: AuthInfoServer) : AuthInfo {
   delete adaptedAuthInfo['is_pro'];
 
   return adaptedAuthInfo as AuthInfo;
+}
+
+export function adaptToComments (data: ReviewServer): Review {
+  const adaptedComments = Object.assign(
+    {},
+    data,
+    {
+      user: {
+        avatarUrl: data['user']['avatar_url'],
+        id: data['user']['id'],
+        isPro: data['user']['is_pro'],
+        name: data['user']['name'],
+      },
+    });
+
+  delete adaptedComments['user']['avatar_url'];
+  delete adaptedComments['user']['is_pro'];
+  delete adaptedComments['user']['id'];
+  delete adaptedComments['user']['name'];
+
+  return adaptedComments as Review;
 }
