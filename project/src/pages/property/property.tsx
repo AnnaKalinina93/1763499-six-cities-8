@@ -1,23 +1,78 @@
 import Header from '../../components/header/header';
-import { Offers } from '../../types/offers';
-import { Reviews } from '../../types/reviews';
 import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import PlaceCard from '../../components/place-card/place-card';
-import FormComment from '../../components/form-comment/form-comment';
-import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import { TypeCard } from '../../const';
+import { connect, ConnectedProps } from 'react-redux';
+import { State } from '../../types/state';
+import { ThunkAppDispatch } from '../../types/action';
+import { fetchComments, fetchNearbyOffers, fetchOfferAction } from '../../store/api-action';
+import LoadingScreen from '../loading-screen/loading-screen';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
+import Reviews  from '../../components/reviews/reviews';
+import './property.css';
 
-type PropertyProps = {
-  offers: Offers;
-  reviews: Reviews;
-};
+const COUNT_NEARBY_OFFERS = 3;
 type ParamTypes = {
   id: string;
-}
-function Property({ offers, reviews }: PropertyProps): JSX.Element {
-  const { id } : ParamTypes= useParams();
-  const offerActive = offers.filter((offer) => offer.id === id);
+};
+
+const mapStateToProps = ({
+  offerLoading,
+  offer,
+  authorizationStatus,
+  offerError,
+  nearbyOffers,
+}: State) => ({
+  offerLoading,
+  offer,
+  authorizationStatus,
+  offerError,
+  nearbyOffers,
+});
+
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  offerRequest(id: string) {
+    dispatch(fetchOfferAction(id));
+  },
+  nearbyOffersRequest(id: string) {
+    dispatch(fetchNearbyOffers(id));
+  },
+  reviewsRequest(id:string) {
+    dispatch(fetchComments(id));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function Property({
+  offer,
+  offerLoading,
+  offerRequest,
+  offerError,
+  nearbyOffersRequest,
+  nearbyOffers,
+  reviewsRequest,
+}: PropsFromRedux): JSX.Element {
+
+  const { id }: ParamTypes = useParams();
+
+  useEffect(() => {
+    offerRequest(id);
+    nearbyOffersRequest(id);
+    reviewsRequest(id);
+  }, [id]);
+
+  if (!offerError) {
+    if ( offerLoading  || !offer) {
+      return <LoadingScreen/>;
+    }
+  } else {
+    return <NotFoundScreen/>;
+  }
+
   const {
     isFavorite,
     isPremium,
@@ -31,7 +86,7 @@ function Property({ offers, reviews }: PropertyProps): JSX.Element {
     description,
     goods,
     images,
-  } = offerActive[0];
+  } = offer;
 
   return (
     <div className="page">
@@ -40,8 +95,8 @@ function Property({ offers, reviews }: PropertyProps): JSX.Element {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              { images.map((image) => {
-                const keyValue = 'image';
+              {images.map((image) => {
+                const keyValue = image;
                 return (
                   <div key={keyValue} className="property__image-wrapper">
                     <img
@@ -56,12 +111,10 @@ function Property({ offers, reviews }: PropertyProps): JSX.Element {
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              {isPremium ? (
+              {isPremium && (
                 <div className="property__mark">
                   <span>Premium</span>
                 </div>
-              ) : (
-                ''
               )}
               <div className="property__name-wrapper">
                 <h1 className="property__name">{title}</h1>
@@ -121,7 +174,11 @@ function Property({ offers, reviews }: PropertyProps): JSX.Element {
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
-                  <div className={`property__avatar-wrapper ${host.isPro? 'property__avatar-wrapper--pro':''} user__avatar-wrapper`}>
+                  <div
+                    className={`property__avatar-wrapper ${
+                      host.isPro ? 'property__avatar-wrapper--pro' : ''
+                    } user__avatar-wrapper`}
+                  >
                     <img
                       className="property__avatar user__avatar"
                       src={host.avatarUrl}
@@ -139,22 +196,13 @@ function Property({ offers, reviews }: PropertyProps): JSX.Element {
                   <p className="property__text">{description}</p>
                 </div>
               </div>
-              <section className="property__reviews reviews">
-                <h2 className="reviews__title">
-                  Reviews &middot; <span className="reviews__amount">{reviews.length}</span>
-                </h2>
-                <ReviewsList reviews={reviews} />
-                <FormComment  onAnswer={() => {
-                  throw new Error('Function \'onAnswer\' isn\'t implemented.');
-                }}
-                />
-              </section>
+              <Reviews id={id}/>
             </div>
           </div>
           <Map
             className={'property__map'}
-            offers={offers}
-            activeId={offerActive[0].id}
+            offers={nearbyOffers.slice(0, COUNT_NEARBY_OFFERS).concat(offer)}
+            activeId={offer.id}
             typeCard={TypeCard.Property}
           />
         </section>
@@ -165,13 +213,12 @@ function Property({ offers, reviews }: PropertyProps): JSX.Element {
               Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-              { offers.filter((offer) =>
-                offer !== offerActive[0])
-                .slice(0,3)
-                .map((offer) => (
+              {nearbyOffers
+                .slice(0, COUNT_NEARBY_OFFERS)
+                .map((item) => (
                   <PlaceCard
-                    offer={offer}
-                    key = {offer.id}
+                    offer={item}
+                    key={item.id}
                     typeCard={TypeCard.NearPlaces}
                   />
                 ))}
@@ -183,4 +230,5 @@ function Property({ offers, reviews }: PropertyProps): JSX.Element {
   );
 }
 
-export default Property;
+export { Property };
+export default connector(Property);

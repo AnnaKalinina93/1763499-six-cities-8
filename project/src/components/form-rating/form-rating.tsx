@@ -5,9 +5,10 @@ type FormRatingProps = {
   count: string,
   title: string,
   onRatingChange : ({ target }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void,
+  value: string,
 }
 
-function FormRating({ count, title, onRatingChange }: FormRatingProps): JSX.Element {
+function FormRating({ count, title, onRatingChange, value }: FormRatingProps): JSX.Element {
 
   return (
     <React.Fragment >
@@ -17,6 +18,7 @@ function FormRating({ count, title, onRatingChange }: FormRatingProps): JSX.Elem
         value= {count}
         id={`${count}-stars`}
         type="radio"
+        checked={count === value}
         onChange={onRatingChange}
       />
       <label

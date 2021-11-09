@@ -6,10 +6,9 @@ import { ThunkAppDispatch } from '../../types/action';
 import { logoutAction } from '../../store/api-action';
 import './header-nav.css';
 
-const mapStateToProps = ({ authorizationStatus, email, avatarUrl }: State) => ({
+const mapStateToProps = ({ authorizationStatus, user }: State) => ({
   authorizationStatus,
-  email,
-  avatarUrl,
+  user,
 });
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   logoutGame() {
@@ -22,9 +21,8 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function HeaderNav({
   authorizationStatus,
-  email,
+  user,
   logoutGame,
-  avatarUrl,
 }: PropsFromRedux): JSX.Element {
   return (
     <nav className="header__nav">
@@ -36,9 +34,9 @@ function HeaderNav({
           >
             <div className="header__avatar-wrapper user__avatar-wrapper" >
               { authorizationStatus === AuthorizationStatus.Auth &&
-                <img className="avatar" src={avatarUrl} alt="avatar"/> }
+                <img className="avatar" src={user?.avatarUrl} alt="avatar"/> }
             </div>
-            <span className="header__user-name user__name">{email}</span>
+            <span className="header__user-name user__name">{user?.email}</span>
           </Link>
         </li>
         <li className="header__nav-item">

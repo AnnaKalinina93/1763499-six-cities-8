@@ -60,25 +60,15 @@ function LoginForm({ loginLoading, onSubmit }: PropsFromRedux): JSX.Element {
     const { name, value } = target;
     const rule = formState[name].regex;
     const isFieldValid = rule.test(value);
-    isFieldValid ?
-      setFormState({
-        ...formState,
-        [name]: {
-          ...formState[name],
-          value: value,
-          error: false,
-          touched: true,
-        },
-      }) :
-      setFormState({
-        ...formState,
-        [name]: {
-          ...formState[name],
-          value: value,
-          error: true,
-          touched: true,
-        },
-      });
+    setFormState({
+      ...formState,
+      [name]: {
+        ...formState[name],
+        value: value,
+        error: !isFieldValid,
+        touched: true,
+      },
+    });
   };
 
   return (

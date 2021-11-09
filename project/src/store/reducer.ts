@@ -9,10 +9,18 @@ const initialState = {
   authorizationStatus: AuthorizationStatus.Unknown,
   offersLoading: false,
   offersError: false,
-  email: '',
-  password: '',
-  avatarUrl:'',
   loginLoading: false,
+  offer: null,
+  offerLoading: false,
+  offerError: false,
+  nearbyOffers: [],
+  nearbyOffersLoading: false,
+  nearbyOffersError: false,
+  user: null,
+  reviews: [],
+  reviewsLoading: false,
+  reviewsError: false,
+  isPostReview: false,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -51,22 +59,40 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {
         ...state,
         authorizationStatus: AuthorizationStatus.NoAuth,
-        email: '',
-        password: '',
-        avatarUrl:'',
+        user: null,
       };
     case ActionType.LoginRequest:
       return { ...state, loginLoading: true };
     case ActionType.LoginSucceeded:
       return {
         ...state,
-        email: action.payload.email,
-        password: action.payload.password,
-        avatarUrl: action.payload.avatarUrl,
+        user: action.payload,
         loginLoading: false,
       };
     case ActionType.LoginFailed:
       return { ...state, loginLoading: false };
+    case ActionType.OfferRequest:
+      return { ...state, offerLoading: true, offerError: false };
+    case ActionType.OfferSucceeded:
+      return { ...state, offerLoading: false, offer: action.payload };
+    case ActionType.OfferFailed:
+      return { ...state, offerLoading: false, offerError: true };
+    case ActionType.NearbyOffersRequest:
+      return { ...state, nearbyOffersLoading: true, nearbyOffers: [] };
+    case ActionType.NearbyOffersSucceeded:
+      return { ...state, nearbyOffers: action.payload, nearbyOffersLoading: false };
+    case ActionType.NearbyOffersFailed:
+      return { ...state, nearbyOffersLoading: false, nearbyOffersError: true };
+    case ActionType.CommentsRequest:
+      return { ...state, reviewsLoading: true };
+    case ActionType.CommentsSucceeded:
+      return { ...state, reviewsLoading: false, reviews: action.payload };
+    case ActionType.CommentsFailed:
+      return { ...state, reviewsLoading: false, reviewsError: true };
+    case ActionType.PostReviewSucceeded:
+      return { ...state, reviews: action.payload, isPostReview: true };
+    case ActionType.PostReviewReset:
+      return { ...state, isPostReview: false };
     default:
       return state;
   }

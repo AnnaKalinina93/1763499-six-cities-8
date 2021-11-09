@@ -1,15 +1,35 @@
-import {useState, FormEvent, ChangeEvent} from 'react';
+import { useState, FormEvent, ChangeEvent, useEffect } from 'react';
 import FormRating from '../../components/form-rating/form-rating';
 import { ratingMap, MIN_REVIEWS } from '../../const';
+import { PostReview } from '../../types/reviews';
+import { postComments } from '../../store/api-action';
+import { ThunkAppDispatch } from '../../types/action';
+import { connect, ConnectedProps } from 'react-redux';
+import { State } from '../../types/state';
 
 
 type FormCommentProps = {
-  onAnswer: (userAnswer:  {
-    [key: string]: string;
-  }) => void;
+  id: string,
 }
 
-function FormComment({ onAnswer } : FormCommentProps): JSX.Element {
+const mapStateToProps = ({
+  isPostReview,
+}: State) => ({
+  isPostReview,
+});
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  postReview(id: string, { comment, rating }: PostReview) {
+    dispatch(postComments(id, { comment, rating }));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & FormCommentProps;
+
+function FormComment({ id, postReview, isPostReview }: ConnectedComponentProps): JSX.Element {
+
   const [formState, setFormState] = useState <{[key:string]:string}>({
     rating: '0',
     review: '',
@@ -23,11 +43,22 @@ function FormComment({ onAnswer } : FormCommentProps): JSX.Element {
     });
   };
 
+  useEffect(() => {
+    if (isPostReview) {
+      setFormState({
+        rating: '0',
+        review: '',
+      });
+    }
+  }, [isPostReview]);
+
   return (
     <form className="reviews__form form" action="#" method="post"
       onSubmit={(evt: FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
-        onAnswer(formState);
+        const comment = formState.review;
+        const rating = formState.rating;
+        postReview(id, { comment, rating });
       }}
     >
       <label className="reviews__label form__label" htmlFor="review">
@@ -40,6 +71,7 @@ function FormComment({ onAnswer } : FormCommentProps): JSX.Element {
               key={key}
               count={key}
               title={title}
+              value={formState.rating}
               onRatingChange={handleChange}
             />))
         }
@@ -49,6 +81,7 @@ function FormComment({ onAnswer } : FormCommentProps): JSX.Element {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
+        value={formState.review}
         onChange={handleChange}
       />
       <div className="reviews__button-wrapper">
@@ -69,4 +102,5 @@ function FormComment({ onAnswer } : FormCommentProps): JSX.Element {
   );
 }
 
-export default FormComment;
+export { FormComment };
+export default connector(FormComment);
