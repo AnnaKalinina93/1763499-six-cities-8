@@ -2,19 +2,18 @@ import Header from '../../components/header/header';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import PlaceCard from '../../components/place-card/place-card';
-import FormComment from '../../components/form-comment/form-comment';
-import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
-import { AuthorizationStatus, TypeCard } from '../../const';
+import { TypeCard } from '../../const';
 import { connect, ConnectedProps } from 'react-redux';
 import { State } from '../../types/state';
 import { ThunkAppDispatch } from '../../types/action';
-import { fetchComments, fetchNearbyOffers, fetchOfferAction, postingComments } from '../../store/api-action';
+import { fetchComments, fetchNearbyOffers, fetchOfferAction } from '../../store/api-action';
 import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
-import { Offer } from '../../types/offers';
-import { PostReview } from '../../types/reviews';
+import Reviews  from '../../components/reviews/reviews';
+import './property.css';
 
+const COUNT_NEARBY_OFFERS = 3;
 type ParamTypes = {
   id: string;
 };
@@ -25,14 +24,12 @@ const mapStateToProps = ({
   authorizationStatus,
   offerError,
   nearbyOffers,
-  reviews,
 }: State) => ({
   offerLoading,
   offer,
   authorizationStatus,
   offerError,
   nearbyOffers,
-  reviews,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -45,9 +42,6 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   reviewsRequest(id:string) {
     dispatch(fetchComments(id));
   },
-  postingReview(id: string, { comment, rating }: PostReview) {
-    dispatch(postingComments(id,{ comment, rating }));
-  },
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -57,13 +51,10 @@ function Property({
   offer,
   offerLoading,
   offerRequest,
-  authorizationStatus,
   offerError,
   nearbyOffersRequest,
   nearbyOffers,
   reviewsRequest,
-  reviews,
-  postingReview,
 }: PropsFromRedux): JSX.Element {
 
   const { id }: ParamTypes = useParams();
@@ -74,15 +65,14 @@ function Property({
     reviewsRequest(id);
   }, [id]);
 
-  if ( offerLoading || !offer ) {
-    return <LoadingScreen/>;
-  }
-
-  if ( offerError && !offerLoading ) {
+  if (!offerError) {
+    if ( offerLoading  || !offer) {
+      return <LoadingScreen/>;
+    }
+  } else {
     return <NotFoundScreen/>;
   }
 
-  const offerActive = offer as Offer;
   const {
     isFavorite,
     isPremium,
@@ -96,7 +86,7 @@ function Property({
     description,
     goods,
     images,
-  } = offerActive;
+  } = offer;
 
   return (
     <div className="page">
@@ -206,29 +196,13 @@ function Property({
                   <p className="property__text">{description}</p>
                 </div>
               </div>
-              <section className="property__reviews reviews">
-                <h2 className="reviews__title">
-                  Reviews &middot;{' '}
-                  <span className="reviews__amount">{reviews.length}</span>
-                </h2>
-                <ReviewsList reviews={reviews} />
-                {authorizationStatus === AuthorizationStatus.Auth && (
-                  <FormComment
-                    onAnswer={(formState) => {
-                      ///как тут можно решить проблему с повторяющимися переменными?
-                      const { review, rating} = formState;
-                      const comment = review;
-                      postingReview(id, {comment, rating});
-                    }}
-                  />
-                )}
-              </section>
+              <Reviews id={id}/>
             </div>
           </div>
           <Map
             className={'property__map'}
-            offers={nearbyOffers.slice(0,3).concat(offerActive)}
-            activeId={offerActive.id}
+            offers={nearbyOffers.slice(0, COUNT_NEARBY_OFFERS).concat(offer)}
+            activeId={offer.id}
             typeCard={TypeCard.Property}
           />
         </section>
@@ -240,7 +214,7 @@ function Property({
             </h2>
             <div className="near-places__list places__list">
               {nearbyOffers
-                .slice(0, 3)
+                .slice(0, COUNT_NEARBY_OFFERS)
                 .map((item) => (
                   <PlaceCard
                     offer={item}

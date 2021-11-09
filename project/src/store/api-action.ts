@@ -18,14 +18,16 @@ import {
   nearbyOffersFailed,
   commentsRequest,
   commentsSucceeded,
-  commentsFailed
+  commentsFailed,
+  postReviewSucceeded,
+  postReviewReset
 } from './action';
-import { saveToken, dropToken, Token } from '../services/token';
+import { saveToken, dropToken } from '../services/token';
 import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { ServerOffers, ServerOffer } from '../types/offers';
 import { AuthData } from '../types/auth-data';
-import { adaptToClient, adaptToComments, adaptToUser } from '../services/adapter';
-import { AuthInfoServer } from '../types/users';
+import { adaptOffer, adaptComments, adaptUser } from '../services/adapter';
+import {  AuthInfoServer } from '../types/users';
 import { ReviewsServer, PostReview } from '../types/reviews';
 
 const errorMessages = {
@@ -42,7 +44,7 @@ export const fetchOffersAction = (): ThunkActionResult =>
     dispatch(offersRequest());
     try {
       const { data } = await api.get<ServerOffers>(APIRoute.Offers);
-      const offers = data.map((offer) => adaptToClient(offer));
+      const offers = data.map((offer) => adaptOffer(offer));
       dispatch(offersSucceeded(offers));
     } catch {
       dispatch(offersFailed());
@@ -54,7 +56,7 @@ export const fetchOfferAction = (id: string): ThunkActionResult =>
     dispatch(offerRequest());
     try {
       const { data } = await api.get<ServerOffer>(`${APIRoute.Offers}/${id}`);
-      const offer = adaptToClient(data);
+      const offer = adaptOffer(data);
       dispatch(offerSucceeded(offer));
     } catch {
       dispatch(offerFailed());
@@ -66,7 +68,7 @@ export const fetchNearbyOffers = (id: string): ThunkActionResult =>
     dispatch(nearbyOffersRequest());
     try {
       const { data } = await api.get<ServerOffers>(`${APIRoute.Offers}/${id}/nearby`);
-      const offers = data.map((offer) => adaptToClient(offer));
+      const offers = data.map((offer) => adaptOffer(offer));
       dispatch(nearbyOffersSucceeded(offers));
     } catch {
       dispatch(nearbyOffersFailed());
@@ -78,8 +80,8 @@ export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _, api) => {
     try {
       const { data } = await api.get<AuthInfoServer>(APIRoute.Login);
-      const users = adaptToUser(data);
-      dispatch(loginSucceeded(users.email, '', users.avatarUrl));
+      const user = adaptUser(data);
+      dispatch(loginSucceeded(user));
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
     } catch {
       toast.info(errorMessages.authorization);
@@ -90,11 +92,10 @@ export const loginAction = ({ email, password }: AuthData): ThunkActionResult =>
   async (dispatch, _, api) => {
     dispatch(loginRequest());
     try {
-      const { data: { token } } = await api.post<{ token: Token }>(APIRoute.Login, { email, password });
-      saveToken(token);
-      const { data } = await api.get<AuthInfoServer>(APIRoute.Login);
-      const users = adaptToUser(data);
-      dispatch(loginSucceeded(email, password, users.avatarUrl));
+      const { data } = await api.post<AuthInfoServer>(APIRoute.Login, { email, password });
+      saveToken(data.token);
+      const user = adaptUser(data);
+      dispatch(loginSucceeded(user));
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
       dispatch(redirectToRoute(AppRoute.Main));
     } catch {
@@ -105,11 +106,10 @@ export const loginAction = ({ email, password }: AuthData): ThunkActionResult =>
 
 export const logoutAction = (): ThunkActionResult =>
   async (dispatch, _, api) => {
-    try{
+    try {
       api.delete(APIRoute.Logout);
       dropToken();
       dispatch(requireLogout());
-      dispatch(loginSucceeded('', '', ''));
       dispatch(redirectToRoute(AppRoute.Main));
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     } catch {
@@ -120,9 +120,9 @@ export const logoutAction = (): ThunkActionResult =>
 export const fetchComments = (id: string): ThunkActionResult =>
   async (dispatch, _, api): Promise<void> => {
     dispatch(commentsRequest());
-    try{
+    try {
       const { data } = await api.get<ReviewsServer>(`${APIRoute.Comments}/${id}`);
-      const reviews = data.map((review)=> adaptToComments(review));
+      const reviews = data.map((review) => adaptComments(review));
       dispatch(commentsSucceeded(reviews));
     } catch {
       dispatch(commentsFailed());
@@ -130,15 +130,15 @@ export const fetchComments = (id: string): ThunkActionResult =>
     }
   };
 
-export const postingComments = (id:string,{comment, rating}: PostReview):ThunkActionResult =>
+export const postComments = (id: string, { comment, rating }: PostReview): ThunkActionResult =>
   async (dispatch, _, api) => {
-    try{
-      await api.post<PostReview>(`${APIRoute.Comments}/${id}`, {comment, rating});
-      const { data } = await api.get<ReviewsServer>(`${APIRoute.Comments}/${id}`);
-      const reviews = data.map((review)=> adaptToComments(review));
-      dispatch(commentsSucceeded(reviews));
+    try {
+      const { data } = await api.post<ReviewsServer>(`${APIRoute.Comments}/${id}`, { comment, rating });
+      const reviews = data.map((review) => adaptComments(review));
+      dispatch(postReviewSucceeded(reviews));
+      dispatch(postReviewReset());
     } catch {
-      dispatch(commentsFailed());
+      dispatch(postReviewReset());
       toast.info(errorMessages.postComment);
     }
   };

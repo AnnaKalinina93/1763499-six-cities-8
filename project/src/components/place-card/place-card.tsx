@@ -2,6 +2,7 @@ import { Offer } from '../../types/offers';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
 import { TypeCard } from '../../const';
+import './place-card.css';
 
 type PlaceCardProps = {
   offer : Offer,

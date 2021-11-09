@@ -19,11 +19,14 @@ import {
   NearbyOffersFailedAction,
   CommentsRequestAction,
   CommentsSucceededAction,
-  CommentsFailedAction
+  CommentsFailedAction,
+  PostReviewSucceededAction,
+  PostReviewResetAction
 } from '../types/action';
 import { Offer, Offers } from '../types/offers';
 import { AuthorizationStatus, AppRoute } from '../const';
 import { Reviews } from '../types/reviews';
+import { AuthInfo } from '../types/users';
 
 export const cityChange = (city: string): CityChangeAction => ({
   type: ActionType.СityСhange,
@@ -78,13 +81,9 @@ export const loginRequest = (): LoginRequestAction => ({
   type: ActionType.LoginRequest,
 });
 
-export const loginSucceeded = (email: string, password: string, avatarUrl: string): LoginSucceededAction => ({
+export const loginSucceeded = (user: AuthInfo): LoginSucceededAction => ({
   type: ActionType.LoginSucceeded,
-  payload: {
-    email,
-    password,
-    avatarUrl,
-  },
+  payload: user,
 });
 
 export const loginFailed = (): LoginFailedAction => ({
@@ -120,4 +119,13 @@ export const commentsSucceeded = (reviews: Reviews): CommentsSucceededAction => 
 
 export const commentsFailed = (): CommentsFailedAction => ({
   type: ActionType.CommentsFailed,
+});
+
+export const postReviewSucceeded = (reviews: Reviews): PostReviewSucceededAction => ({
+  type: ActionType.PostReviewSucceeded,
+  payload: reviews,
+});
+
+export const postReviewReset = (): PostReviewResetAction => ({
+  type: ActionType.PostReviewReset,
 });

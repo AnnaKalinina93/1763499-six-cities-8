@@ -2,7 +2,7 @@ import { Offer, ServerOffer } from '../types/offers';
 import { Review, ReviewServer } from '../types/reviews';
 import { AuthInfo, AuthInfoServer } from '../types/users';
 
-export function adaptToClient( offer: ServerOffer): Offer {
+export function adaptOffer ( offer: ServerOffer): Offer {
   const adaptedOffer =  Object.assign(
     {},
     offer,
@@ -31,7 +31,7 @@ export function adaptToClient( offer: ServerOffer): Offer {
   return adaptedOffer as Offer;
 }
 
-export function adaptToUser (data: AuthInfoServer): AuthInfo {
+export function adaptUser (data: AuthInfoServer): AuthInfo {
   const adaptedAuthInfo = Object.assign(
     {},
     data,
@@ -46,7 +46,7 @@ export function adaptToUser (data: AuthInfoServer): AuthInfo {
   return adaptedAuthInfo as AuthInfo;
 }
 
-export function adaptToComments (data: ReviewServer): Review {
+export function adaptComments (data: ReviewServer): Review {
   const adaptedComments = Object.assign(
     {},
     data,

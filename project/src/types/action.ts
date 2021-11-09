@@ -8,6 +8,7 @@ import { AxiosInstance } from 'axios';
 import { State } from '../types/state';
 import { AppRoute } from '../const';
 import { Reviews } from './reviews';
+import { AuthInfo } from './users';
 
 export enum ActionType {
   СityСhange = 'main/cityChange',
@@ -28,9 +29,11 @@ export enum ActionType {
   NearbyOffersRequest = 'property/nearbyOffersRequest',
   NearbyOffersSucceeded = 'property/nearbyOffersSucceeded',
   NearbyOffersFailed = 'property/nearbyOffersFailed',
-  CommentsRequest = 'property/commentsRequest',
-  CommentsSucceeded = 'property/commentsSucceeded',
-  CommentsFailed = 'property/commentsFailed',
+  CommentsRequest = 'reviews/commentsRequest',
+  CommentsSucceeded = 'reviews/commentsSucceeded',
+  CommentsFailed = 'reviews/commentsFailed',
+  PostReviewSucceeded = 'reviews/postReviewSucceeded',
+  PostReviewReset = 'reviews/postReviewReset',
 }
 
 export type CityChangeAction = {
@@ -88,11 +91,7 @@ export type LoginRequestAction = {
 
 export type LoginSucceededAction = {
   type: ActionType.LoginSucceeded;
-  payload: {
-    email: string,
-    password: string,
-    avatarUrl: string,
-  };
+  payload: AuthInfo;
 }
 
 export type LoginFailedAction = {
@@ -130,6 +129,15 @@ export type CommentsFailedAction = {
   type: ActionType.CommentsFailed;
 };
 
+export type PostReviewSucceededAction = {
+  type: ActionType.PostReviewSucceeded;
+  payload: Reviews,
+};
+
+export type PostReviewResetAction = {
+  type: ActionType.PostReviewReset;
+};
+
 export type Actions = CityChangeAction |
   OffersSucceededAction |
   OffersRequestAction |
@@ -150,7 +158,9 @@ export type Actions = CityChangeAction |
   NearbyOffersFailedAction |
   CommentsRequestAction |
   CommentsSucceededAction |
-  CommentsFailedAction;
+  CommentsFailedAction |
+  PostReviewSucceededAction |
+  PostReviewResetAction;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 

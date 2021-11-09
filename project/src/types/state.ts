@@ -10,9 +10,6 @@ export type State = {
   authorizationStatus: AuthorizationStatus,
   offersLoading: boolean,
   offersError: boolean,
-  email: string,
-  password: string,
-  avatarUrl: string,
   offer: Offer | null,
   loginLoading: boolean,
   offerLoading: boolean,
@@ -24,4 +21,5 @@ export type State = {
   reviews: Reviews,
   reviewsLoading: boolean,
   reviewsError: boolean,
+  isPostReview: boolean,
 };
