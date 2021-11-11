@@ -1,30 +1,20 @@
 import { sortType } from '../../const';
-import { Dispatch } from 'redux';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { sortTypeChange } from '../../store/action';
-import { State } from '../../types/state';
-import { Actions } from '../../types/action';
 import cn from 'classnames';
 import { useState } from 'react';
+import { getActiveSortType } from '../../store/main-data/selectors';
 
-const mapStateToProps = ({ activeCity, offers, activeSortType }: State) => ({
-  activeCity,
-  offers,
-  activeSortType,
-});
+function Sorting(): JSX.Element {
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onUserAnswer(currentSortType: string) {
+  const activeSortType = useSelector(getActiveSortType);
+
+  const dispatch = useDispatch();
+
+  const  onUserAnswer = (currentSortType: string) => {
     dispatch(sortTypeChange(currentSortType));
-  },
-});
+  };
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function Sorting(props: PropsFromRedux): JSX.Element {
-  const { activeSortType, onUserAnswer } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -61,5 +51,5 @@ function Sorting(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export {Sorting};
-export default connector(Sorting);
+export default Sorting;
+

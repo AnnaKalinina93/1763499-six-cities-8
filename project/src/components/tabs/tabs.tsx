@@ -1,30 +1,18 @@
 import React from 'react';
-import { Dispatch } from 'redux';
-import { connect, ConnectedProps } from 'react-redux';
 import { cityChange, sortTypeChange } from '../../store/action';
-import { State } from '../../types/state';
-import { Actions } from '../../types/action';
 import { citiesList, sortType } from '../../const';
 import cn from 'classnames';
+import { getActiveCity } from '../../store/main-data/selectors';
+import {useSelector, useDispatch} from 'react-redux';
 
-const mapStateToProps = ({ activeCity, offers, activeSortType }: State) => ({
-  activeCity,
-  offers,
-});
+function Tabs(): JSX.Element {
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onUserAnswer(city: string) {
+  const activeCity = useSelector(getActiveCity);
+  const dispatch = useDispatch();
+  const onUserAnswer = (city: string) => {
     dispatch(cityChange(city));
     dispatch(sortTypeChange(sortType.popular));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function Tabs(props: PropsFromRedux): JSX.Element {
-  const { activeCity, onUserAnswer } = props;
+  };
 
   return (
     <React.Fragment>
@@ -40,7 +28,7 @@ function Tabs(props: PropsFromRedux): JSX.Element {
                 <li key={key} className="locations__item">
                   <a
                     className={classList}
-                    href="#"
+                    href="/#"
                     onClick={(evt) => {
                       evt.preventDefault();
                       onUserAnswer(city);
@@ -57,5 +45,5 @@ function Tabs(props: PropsFromRedux): JSX.Element {
     </React.Fragment>
   );
 }
-export { Tabs };
-export default connector(Tabs);
+export default Tabs;
+

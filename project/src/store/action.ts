@@ -1,131 +1,105 @@
-import {
-  ActionType,
-  CityChangeAction,
-  OffersSucceededAction,
-  ResetCityAction,
-  SortTypeChangeAction,
-  RequireAuthorizationAction,
-  RequireLogoutAction, OffersRequestAction,
-  OffersFailedAction,
-  LoginRequestAction,
-  LoginSucceededAction,
-  RedirectToRouteAction,
-  LoginFailedAction,
-  OfferRequestAction,
-  OfferSucceededAction,
-  OfferFailedAction,
-  NearbyOffersRequestAction,
-  NearbyOffersSucceededAction,
-  NearbyOffersFailedAction,
-  CommentsRequestAction,
-  CommentsSucceededAction,
-  CommentsFailedAction,
-  PostReviewSucceededAction,
-  PostReviewResetAction
-} from '../types/action';
+import { ActionType } from '../types/action';
 import { Offer, Offers } from '../types/offers';
 import { AuthorizationStatus, AppRoute } from '../const';
 import { Reviews } from '../types/reviews';
 import { AuthInfo } from '../types/users';
+import {createAction} from '@reduxjs/toolkit';
 
-export const cityChange = (city: string): CityChangeAction => ({
-  type: ActionType.СityСhange,
-  payload: city,
-});
 
-export const offersSucceeded = (offers: Offers): OffersSucceededAction => ({
-  type: ActionType.OffersSucceeded,
-  payload: offers,
-});
+export const cityChange = createAction(
+  ActionType.СityСhange,
+  (city: string) => ({
+    payload: city,
+  }),
+);
 
-export const offersRequest = (): OffersRequestAction => ({
-  type: ActionType.OffersRequest,
-});
+export const offersSucceeded = createAction(
+  ActionType.OffersSucceeded,
+  (offers: Offers) => ({
+    payload: offers,
+  }),
+);
 
-export const offersFailed = (): OffersFailedAction => ({
-  type: ActionType.OffersFailed,
-});
+export const offersRequest = createAction(ActionType.OffersRequest);
 
-export const offerRequest = (): OfferRequestAction => ({
-  type: ActionType.OfferRequest,
-});
 
-export const offerSucceeded = (offer: Offer): OfferSucceededAction => ({
-  type: ActionType.OfferSucceeded,
-  payload: offer,
-});
+export const offersFailed = createAction(ActionType.OffersFailed);
 
-export const offerFailed = (): OfferFailedAction => ({
-  type: ActionType.OfferFailed,
-});
+export const offerRequest = createAction(ActionType.OfferRequest);
 
-export const resetCity = (): ResetCityAction => ({
-  type: ActionType.ResetCity,
-});
 
-export const sortTypeChange = (sortType: string): SortTypeChangeAction => ({
-  type: ActionType.SortTypeChange,
-  payload: sortType,
-});
+export const offerSucceeded = createAction(ActionType.OfferSucceeded,
+  (offer: Offer) => ({
+    payload: offer,
+  }),
+);
 
-export const requireAuthorization = (authStatus: AuthorizationStatus): RequireAuthorizationAction => ({
-  type: ActionType.RequireAuthorization,
-  payload: authStatus,
-});
+export const offerFailed = createAction(ActionType.OfferFailed);
 
-export const requireLogout = (): RequireLogoutAction => ({
-  type: ActionType.RequireLogout,
-});
+export const resetCity = createAction(ActionType.ResetCity);
 
-export const loginRequest = (): LoginRequestAction => ({
-  type: ActionType.LoginRequest,
-});
+export const sortTypeChange = createAction(
+  ActionType.SortTypeChange,
+  (sortType: string) => ({
+    payload: sortType,
+  }),
+);
 
-export const loginSucceeded = (user: AuthInfo): LoginSucceededAction => ({
-  type: ActionType.LoginSucceeded,
-  payload: user,
-});
+export const requireAuthorization = createAction(
+  ActionType.RequireAuthorization,
+  (authStatus: AuthorizationStatus) => ({
+    payload: authStatus,
+  }),
+);
 
-export const loginFailed = (): LoginFailedAction => ({
-  type: ActionType.LoginFailed,
-});
+export const requireLogout = createAction(ActionType.RequireLogout);
 
-export const redirectToRoute = (url: AppRoute): RedirectToRouteAction => ({
-  type: ActionType.RedirectToRoute,
-  payload: url,
-});
+export const loginRequest = createAction(ActionType.LoginRequest);
 
-export const nearbyOffersRequest = (): NearbyOffersRequestAction => ({
-  type: ActionType.NearbyOffersRequest,
-});
+export const loginSucceeded = createAction(
+  ActionType.LoginSucceeded,
+  (user: AuthInfo) => ({
+    payload: user,
+  }),
+);
 
-export const nearbyOffersSucceeded = (offers: Offers): NearbyOffersSucceededAction => ({
-  type: ActionType.NearbyOffersSucceeded,
-  payload: offers,
-});
 
-export const nearbyOffersFailed = (): NearbyOffersFailedAction => ({
-  type: ActionType.NearbyOffersFailed,
-});
+export const loginFailed = createAction(ActionType.LoginFailed);
 
-export const commentsRequest = (): CommentsRequestAction => ({
-  type: ActionType.CommentsRequest,
-});
+export const redirectToRoute = createAction(
+  ActionType.RedirectToRoute,
+  (url: AppRoute) => ({
+    payload: url,
+  }),
+);
 
-export const commentsSucceeded = (reviews: Reviews): CommentsSucceededAction => ({
-  type: ActionType.CommentsSucceeded,
-  payload: reviews,
-});
+export const nearbyOffersRequest = createAction(ActionType.NearbyOffersRequest);
 
-export const commentsFailed = (): CommentsFailedAction => ({
-  type: ActionType.CommentsFailed,
-});
+export const nearbyOffersSucceeded = createAction(
+  ActionType.NearbyOffersSucceeded,
+  (offers: Offers) => ({
+    payload: offers,
+  }),
+);
 
-export const postReviewSucceeded = (reviews: Reviews): PostReviewSucceededAction => ({
-  type: ActionType.PostReviewSucceeded,
-  payload: reviews,
-});
+export const nearbyOffersFailed = createAction(ActionType.NearbyOffersFailed);
 
-export const postReviewReset = (): PostReviewResetAction => ({
-  type: ActionType.PostReviewReset,
-});
+export const commentsRequest = createAction(ActionType.CommentsRequest);
+
+export const commentsSucceeded = createAction(
+  ActionType.CommentsSucceeded,
+  (reviews: Reviews) => ({
+    payload: reviews,
+  }),
+);
+
+export const commentsFailed = createAction(ActionType.CommentsFailed);
+
+export const postReviewSucceeded = createAction(
+  ActionType.PostReviewSucceeded,
+  (reviews: Reviews) => ({
+    payload: reviews,
+  }),
+);
+
+export const postReviewReset = createAction(ActionType.PostReviewReset);

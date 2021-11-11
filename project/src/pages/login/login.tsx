@@ -1,25 +1,16 @@
 import Header from '../../components/header/header';
 import LoginForm from '../../components/login-form/login-form';
-import { connect, ConnectedProps } from 'react-redux';
-import { State } from '../../types/state';
 import { Link } from 'react-router-dom';
 import { AppRoute, CitiesList } from '../../const';
 import { citiesList } from '../../const';
+
 
 function getRandomCity ( obj: CitiesList ): string  {
   const keys = Object.keys(obj);
   return keys[Math.floor(Math.random()*keys.length)];
 }
 
-const mapStateToProps = ({ activeCity }: State) => ({
-  activeCity,
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function Login({ activeCity }: PropsFromRedux): JSX.Element {
+function Login(): JSX.Element {
   return (
     <div className="page page--gray page--login">
       <Header />
@@ -38,5 +29,4 @@ function Login({ activeCity }: PropsFromRedux): JSX.Element {
     </div>
   );
 }
-export { Login };
-export default connector(Login);
+export default Login;

@@ -4,58 +4,37 @@ import { useEffect } from 'react';
 import PlaceCard from '../../components/place-card/place-card';
 import Map from '../../components/map/map';
 import { TypeCard } from '../../const';
-import { connect, ConnectedProps } from 'react-redux';
-import { State } from '../../types/state';
-import { ThunkAppDispatch } from '../../types/action';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchComments, fetchNearbyOffers, fetchOfferAction } from '../../store/api-action';
 import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Reviews  from '../../components/reviews/reviews';
 import './property.css';
+import { getNearbyOffers, getOffer, getOfferError, getOfferLoading } from '../../store/property-data/selectors';
 
 const COUNT_NEARBY_OFFERS = 3;
 type ParamTypes = {
   id: string;
 };
 
-const mapStateToProps = ({
-  offerLoading,
-  offer,
-  authorizationStatus,
-  offerError,
-  nearbyOffers,
-}: State) => ({
-  offerLoading,
-  offer,
-  authorizationStatus,
-  offerError,
-  nearbyOffers,
-});
+function Property(): JSX.Element {
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  offerRequest(id: string) {
+  const offer = useSelector(getOffer);
+  const offerLoading = useSelector(getOfferLoading);
+  const offerError = useSelector(getOfferError);
+  const nearbyOffers = useSelector(getNearbyOffers);
+
+  const dispatch = useDispatch();
+
+  const  offerRequest = (id: string) => {
     dispatch(fetchOfferAction(id));
-  },
-  nearbyOffersRequest(id: string) {
+  };
+  const nearbyOffersRequest = (id: string) => {
     dispatch(fetchNearbyOffers(id));
-  },
-  reviewsRequest(id:string) {
+  };
+  const  reviewsRequest = (id:string) => {
     dispatch(fetchComments(id));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function Property({
-  offer,
-  offerLoading,
-  offerRequest,
-  offerError,
-  nearbyOffersRequest,
-  nearbyOffers,
-  reviewsRequest,
-}: PropsFromRedux): JSX.Element {
+  };
 
   const { id }: ParamTypes = useParams();
 
@@ -230,5 +209,4 @@ function Property({
   );
 }
 
-export { Property };
-export default connector(Property);
+export default Property;

@@ -3,32 +3,23 @@ import FormRating from '../../components/form-rating/form-rating';
 import { ratingMap, MIN_REVIEWS } from '../../const';
 import { PostReview } from '../../types/reviews';
 import { postComments } from '../../store/api-action';
-import { ThunkAppDispatch } from '../../types/action';
-import { connect, ConnectedProps } from 'react-redux';
-import { State } from '../../types/state';
+import { useDispatch, useSelector } from 'react-redux';
+import { getIsPostReview } from '../../store/property-data/selectors';
 
 
 type FormCommentProps = {
   id: string,
 }
 
-const mapStateToProps = ({
-  isPostReview,
-}: State) => ({
-  isPostReview,
-});
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  postReview(id: string, { comment, rating }: PostReview) {
-    dispatch(postComments(id, { comment, rating }));
-  },
-});
+function FormComment({ id }: FormCommentProps): JSX.Element {
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+  const isPostReview = useSelector(getIsPostReview);
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & FormCommentProps;
+  const dispatch = useDispatch();
 
-function FormComment({ id, postReview, isPostReview }: ConnectedComponentProps): JSX.Element {
+  const postReview = (idActive: string, { comment, rating }: PostReview) => {
+    dispatch(postComments(idActive, { comment, rating }));
+  };
 
   const [formState, setFormState] = useState <{[key:string]:string}>({
     rating: '0',
@@ -102,5 +93,4 @@ function FormComment({ id, postReview, isPostReview }: ConnectedComponentProps):
   );
 }
 
-export { FormComment };
-export default connector(FormComment);
+export default FormComment;

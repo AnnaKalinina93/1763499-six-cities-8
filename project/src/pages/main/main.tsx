@@ -2,37 +2,22 @@ import CitiesPlacesContainer from '../../components/cities-places-container/citi
 import Header from '../../components/header/header';
 import Tabs from '../../components/tabs/tabs';
 import { Offers } from '../../types/offers';
-import { connect, ConnectedProps } from 'react-redux';
-import { State } from '../../types/state';
 import MainEmpty from '../main-empty/main-empty';
 import cn from 'classnames';
 import { sortType } from '../../const';
 import LoadingScreen from '../loading-screen/loading-screen';
 import OffersErrorScreen from '../offers-error-screen/offers-error-screen';
+import { getActiveCity, getActiveSortType, getOffers, getOffersError, getOffersLoading } from '../../store/main-data/selectors';
+import { useSelector } from 'react-redux';
 
-const mapStateToProps = ({
-  activeCity,
-  offers,
-  activeSortType,
-  authorizationStatus,
-  offersLoading,
-  offersError,
-}: State) => ({
-  activeCity,
-  offers,
-  activeSortType,
-  authorizationStatus,
-  offersLoading,
-  offersError,
-});
+function Main(): JSX.Element {
 
-const connector = connect(mapStateToProps);
+  const activeCity = useSelector(getActiveCity);
+  const offers = useSelector(getOffers);
+  const activeSortType = useSelector(getActiveSortType);
+  const offersLoading = useSelector(getOffersLoading);
+  const offersError = useSelector(getOffersError);
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function Main(props: PropsFromRedux): JSX.Element {
-  const { activeCity, offers, activeSortType, offersLoading, offersError } =
-    props;
   const selectedOffers: Offers = offers.filter(
     (offer) => offer.city.name === activeCity);
   switch (activeSortType) {
@@ -73,5 +58,4 @@ function Main(props: PropsFromRedux): JSX.Element {
     </div>
   );
 }
-export { Main };
-export default connector(Main);
+export default Main;
