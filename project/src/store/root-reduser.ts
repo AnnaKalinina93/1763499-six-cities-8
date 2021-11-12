@@ -1,17 +1,20 @@
 import { combineReducers } from 'redux';
-import { mainData } from './main-data/main-data';
+import { offersData } from './offers-data/offers-data';
 import { userProcess } from './user-process/user-process';
-import { propertyData } from './property-data/property-data';
+import { commentsData } from './comments-data/comments-data';
+import { uiState } from './ui-state/ui-state';
 
 export enum NameSpace {
-  main = 'MAIN',
-  property = 'PROPERTY',
+  ui = 'UI_STATE',
+  offers = 'OFFERS',
+  comments = 'COMMENTS',
   user = 'USER',
 }
 
 export const rootReducer = combineReducers({
-  [NameSpace.main]: mainData,
-  [NameSpace.property]: propertyData,
+  [NameSpace.ui]: uiState,
+  [NameSpace.offers]: offersData,
+  [NameSpace.comments]: commentsData,
   [NameSpace.user]: userProcess,
 });
 

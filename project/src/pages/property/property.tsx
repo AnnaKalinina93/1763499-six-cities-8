@@ -5,12 +5,13 @@ import PlaceCard from '../../components/place-card/place-card';
 import Map from '../../components/map/map';
 import { TypeCard } from '../../const';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchComments, fetchNearbyOffers, fetchOfferAction } from '../../store/api-action';
+import { fetchNearbyOffers, fetchOfferAction } from '../../store/offers-data/api-action';
+import { fetchComments } from '../../store/comments-data/api-action';
 import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Reviews  from '../../components/reviews/reviews';
 import './property.css';
-import { getNearbyOffers, getOffer, getOfferError, getOfferLoading } from '../../store/property-data/selectors';
+import { getNearbyOffers, getOffer, getOfferError, getOfferLoading } from '../../store/offers-data/selectors';
 
 const COUNT_NEARBY_OFFERS = 3;
 type ParamTypes = {

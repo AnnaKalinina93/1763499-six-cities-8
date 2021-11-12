@@ -7,7 +7,7 @@ import {
   loginSucceeded,
   requireAuthorization,
   requireLogout
-} from '../action';
+} from './action';
 
 const initialState: UserProcess = {
   authorizationStatus: AuthorizationStatus.Unknown,

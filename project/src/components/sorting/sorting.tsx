@@ -1,9 +1,9 @@
 import { sortType } from '../../const';
 import { useDispatch, useSelector } from 'react-redux';
-import { sortTypeChange } from '../../store/action';
+import { sortTypeChange } from '../../store/ui-state/action';
 import cn from 'classnames';
 import { useState } from 'react';
-import { getActiveSortType } from '../../store/main-data/selectors';
+import { getActiveSortType } from '../../store/ui-state/selectors';
 
 function Sorting(): JSX.Element {
 

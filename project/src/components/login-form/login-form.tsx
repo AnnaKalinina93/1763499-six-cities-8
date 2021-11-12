@@ -4,7 +4,7 @@ import './login-form.css';
 import { useDispatch, useSelector } from 'react-redux';
 import PacmanLoader from 'react-spinners/ClipLoader';
 import { AuthData } from '../../types/auth-data';
-import { loginAction } from '../../store/api-action';
+import { loginAction } from '../../store/user-process/api-action';
 import { getLoginLoading } from '../../store/user-process/selectors';
 
 const formField = {

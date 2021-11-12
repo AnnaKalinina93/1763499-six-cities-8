@@ -2,10 +2,9 @@ import { useState, FormEvent, ChangeEvent, useEffect } from 'react';
 import FormRating from '../../components/form-rating/form-rating';
 import { ratingMap, MIN_REVIEWS } from '../../const';
 import { PostReview } from '../../types/reviews';
-import { postComments } from '../../store/api-action';
+import { postComments } from '../../store/comments-data/api-action';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIsPostReview } from '../../store/property-data/selectors';
-
+import { getIsPostReview } from '../../store/comments-data/selectors';
 
 type FormCommentProps = {
   id: string,

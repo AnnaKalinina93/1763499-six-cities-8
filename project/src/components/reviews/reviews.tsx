@@ -2,7 +2,7 @@ import ReviewsList from '../reviews-list/reviews-list';
 import FormComment from '../form-comment/form-comment';
 import { AuthorizationStatus } from '../../const';
 import { useSelector } from 'react-redux';
-import { getReviews } from '../../store/property-data/selectors';
+import { getReviews } from '../../store/comments-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 type ReviewsProps = {

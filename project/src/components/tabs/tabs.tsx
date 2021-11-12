@@ -1,9 +1,9 @@
 import React from 'react';
-import { cityChange, sortTypeChange } from '../../store/action';
+import { cityChange, sortTypeChange } from '../../store/ui-state/action';
 import { citiesList, sortType } from '../../const';
 import cn from 'classnames';
-import { getActiveCity } from '../../store/main-data/selectors';
-import {useSelector, useDispatch} from 'react-redux';
+import { getActiveCity } from '../../store/ui-state/selectors';
+import { useSelector, useDispatch } from 'react-redux';
 
 function Tabs(): JSX.Element {
 

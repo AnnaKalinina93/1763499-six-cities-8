@@ -13,23 +13,26 @@ export type UserProcess = {
   user: AuthInfo | null,
 };
 
-export type MainData = {
-  activeCity: string,
+export type OffersData = {
   offers: Offers,
-  activeSortType: string,
   offersLoading: boolean,
   offersError: boolean,
-}
-
-export type PropertyData = {
   offer: Offer | null,
   offerLoading: boolean,
   offerError: boolean,
   nearbyOffers: Offers,
   nearbyOffersLoading: boolean,
   nearbyOffersError: boolean,
+}
+
+export type CommentsData = {
   reviews: Reviews,
   reviewsLoading: boolean,
   reviewsError: boolean,
   isPostReview: boolean,
+}
+
+export type UiState = {
+  activeCity: string,
+  activeSortType: string,
 }

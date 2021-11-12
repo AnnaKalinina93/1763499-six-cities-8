@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { logoutAction } from '../../store/api-action';
+import { logoutAction } from '../../store/user-process/api-action';
 import './header-nav.css';
 import { getAuthorizationStatus, getUser } from '../../store/user-process/selectors';
 
