@@ -1,28 +1,18 @@
 import ReviewsList from '../reviews-list/reviews-list';
 import FormComment from '../form-comment/form-comment';
 import { AuthorizationStatus } from '../../const';
-import { State } from '../../types/state';
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { getReviews } from '../../store/comments-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 type ReviewsProps = {
   id: string,
 }
 
-const mapStateToProps = ({ reviews, authorizationStatus }: State) => ({
-  reviews,
-  authorizationStatus,
-});
+function Reviews({ id }: ReviewsProps): JSX.Element {
 
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & ReviewsProps;
-
-function Reviews({
-  id,
-  reviews,
-  authorizationStatus,
-}: ConnectedComponentProps): JSX.Element {
+  const reviews = useSelector(getReviews);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
 
   return (
     <section className="property__reviews reviews">
@@ -38,7 +28,6 @@ function Reviews({
   );
 }
 
-export { Reviews };
-export default connector(Reviews);
+export default Reviews;
 
 

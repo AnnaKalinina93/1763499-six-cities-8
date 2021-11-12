@@ -1,29 +1,21 @@
 import { Link } from 'react-router-dom';
-import { State } from '../../types/state';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { ThunkAppDispatch } from '../../types/action';
-import { logoutAction } from '../../store/api-action';
+import { logoutAction } from '../../store/user-process/api-action';
 import './header-nav.css';
+import { getAuthorizationStatus, getUser } from '../../store/user-process/selectors';
 
-const mapStateToProps = ({ authorizationStatus, user }: State) => ({
-  authorizationStatus,
-  user,
-});
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  logoutGame() {
+function HeaderNav(): JSX.Element {
+
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const user = useSelector(getUser);
+
+  const dispatch = useDispatch();
+
+  const logout = () => {
     dispatch(logoutAction());
-  },
-});
-const connector = connect(mapStateToProps, mapDispatchToProps);
+  };
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function HeaderNav({
-  authorizationStatus,
-  user,
-  logoutGame,
-}: PropsFromRedux): JSX.Element {
   return (
     <nav className="header__nav">
       <ul className="header__nav-list">
@@ -45,7 +37,7 @@ function HeaderNav({
               className="header__nav-link"
               onClick={(evt) => {
                 evt.preventDefault();
-                logoutGame();
+                logout();
               }}
               to={AppRoute.Main}
             >
@@ -62,5 +54,4 @@ function HeaderNav({
   );
 }
 
-export { HeaderNav };
-export default connector(HeaderNav);
+export default HeaderNav;

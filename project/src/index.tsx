@@ -1,42 +1,41 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
-import { reviews } from './mocks/reviews';
-import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { reducer } from './store/reducer';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
+import { rootReducer } from './store/root-reduser';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createAPI } from './services/api';
-import { requireAuthorization } from './store/action';
-import { fetchOffersAction, checkAuthAction } from './store/api-action';
-import { ThunkAppDispatch } from './types/action';
+import { requireAuthorization } from './store/user-process/action';
+import { fetchOffersAction } from './store/offers-data/api-action';
+import { checkAuthAction } from './store/user-process/api-action';
 import { AuthorizationStatus } from './const';
 import { offers } from './mocks/offers';
 import { redirect } from './store/middlewares/redirect';
+import {configureStore} from '@reduxjs/toolkit';
 
 const api = createAPI(
   () => store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth)),
 );
 
-const store = createStore(
-  reducer,
-  composeWithDevTools(
-    applyMiddleware(thunk.withExtraArgument(api)),
-    applyMiddleware(redirect),
-  ),
-);
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: {
+        extraArgument: api,
+      },
+    }).concat(redirect),
+});
 
-(store.dispatch as ThunkAppDispatch)(checkAuthAction());
-(store.dispatch as ThunkAppDispatch)(fetchOffersAction());
+store.dispatch(checkAuthAction());
+store.dispatch(fetchOffersAction());
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store = {store}>
       <ToastContainer />
-      <App offers= {offers} reviews = {reviews}/>
+      <App offers= {offers}/>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'),

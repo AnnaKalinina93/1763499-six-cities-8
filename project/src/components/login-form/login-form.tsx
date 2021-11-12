@@ -1,31 +1,16 @@
 import cn from 'classnames';
 import { useState, FormEvent, ChangeEvent } from 'react';
 import './login-form.css';
-import { connect, ConnectedProps } from 'react-redux';
-import { State } from '../../types/state';
+import { useDispatch, useSelector } from 'react-redux';
 import PacmanLoader from 'react-spinners/ClipLoader';
 import { AuthData } from '../../types/auth-data';
-import { loginAction } from '../../store/api-action';
-import { ThunkAppDispatch } from '../../types/action';
+import { loginAction } from '../../store/user-process/api-action';
+import { getLoginLoading } from '../../store/user-process/selectors';
 
 const formField = {
   email: 'E-mail',
   password: 'Password',
 };
-
-const mapStateToProps = ({ loginLoading }: State) => ({
-  loginLoading,
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(authData: AuthData) {
-    dispatch(loginAction(authData));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
 
 type InputProps = {
   value: string;
@@ -36,7 +21,17 @@ type InputProps = {
 }
 
 type FormStateProps = { [key: string]: InputProps};
-function LoginForm({ loginLoading, onSubmit }: PropsFromRedux): JSX.Element {
+
+function LoginForm(): JSX.Element {
+
+  const loginLoading = useSelector(getLoginLoading);
+
+  const dispatch = useDispatch();
+
+  const onSubmit = (authData: AuthData) => {
+    dispatch(loginAction(authData));
+  };
+
   const [formState, setFormState] = useState<FormStateProps>({
     email: {
       value: '',
@@ -121,5 +116,4 @@ function LoginForm({ loginLoading, onSubmit }: PropsFromRedux): JSX.Element {
   );
 }
 
-export { LoginForm };
-export default connector(LoginForm);
+export default LoginForm;

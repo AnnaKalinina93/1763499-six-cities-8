@@ -7,15 +7,13 @@ import Property from '../../pages/property/property';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../../components/private-route/private-route';
 import { Offers } from '../../types/offers';
-import { Reviews } from '../../types/reviews';
 import browserHistory from '../../browser-history';
 
 type AppProps = {
   offers: Offers;
-  reviews: Reviews;
 };
 
-function App({ reviews, offers }: AppProps): JSX.Element {
+function App({ offers }: AppProps): JSX.Element {
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
