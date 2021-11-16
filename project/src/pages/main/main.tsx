@@ -7,7 +7,9 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import OffersErrorScreen from '../offers-error-screen/offers-error-screen';
 import { getOffersError, getOffersLoading, getSortOffers } from '../../store/offers-data/selectors';
 import { getActiveCity } from '../../store/ui-state/selectors';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchOffersAction } from '../../store/offers-data/api-action';
 
 function Main(): JSX.Element {
 
@@ -15,6 +17,15 @@ function Main(): JSX.Element {
   const offersLoading = useSelector(getOffersLoading);
   const offersError = useSelector(getOffersError);
   const selectedOffers = useSelector(getSortOffers);
+
+  const dispatch = useDispatch();
+  const getOffers =  () => {
+    dispatch(fetchOffersAction());
+  };
+
+  useEffect(() => {
+    getOffers();
+  }, []);
 
   const classMain = cn('page page--gray page--main', {
     'page__main--index-empty': !selectedOffers.length,

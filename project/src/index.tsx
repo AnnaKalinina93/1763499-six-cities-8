@@ -7,10 +7,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createAPI } from './services/api';
 import { requireAuthorization } from './store/user-process/action';
-import { fetchOffersAction } from './store/offers-data/api-action';
+//import { fetchOffersAction } from './store/offers-data/api-action';
 import { checkAuthAction } from './store/user-process/api-action';
 import { AuthorizationStatus } from './const';
-import { offers } from './mocks/offers';
 import { redirect } from './store/middlewares/redirect';
 import {configureStore} from '@reduxjs/toolkit';
 
@@ -29,13 +28,13 @@ const store = configureStore({
 });
 
 store.dispatch(checkAuthAction());
-store.dispatch(fetchOffersAction());
+//store.dispatch(fetchOffersAction());
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store = {store}>
       <ToastContainer />
-      <App offers= {offers}/>
+      <App />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'),

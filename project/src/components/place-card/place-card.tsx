@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import cn from 'classnames';
 import { TypeCard } from '../../const';
 import './place-card.css';
+import { useDispatch } from 'react-redux';
+import { postAddToFavorites } from '../../store/favorites-data/api-action';
 
 type PlaceCardProps = {
   offer : Offer,
@@ -12,6 +14,12 @@ type PlaceCardProps = {
 }
 
 function PlaceCard({ offer, typeCard , handleMouseEnter, handleMouseLeave }: PlaceCardProps): JSX.Element {
+
+  const dispatch = useDispatch();
+  const changeFavorites =  (id: string, status: number) => {
+    dispatch(postAddToFavorites(id, status));
+  };
+
   const {
     id,
     isFavorite,
@@ -25,6 +33,7 @@ function PlaceCard({ offer, typeCard , handleMouseEnter, handleMouseLeave }: Pla
 
   const placeClass = cn(typeCard === TypeCard.City? 'cities__place-card' : 'near-places__card','place-card');
   const imgClass = cn(typeCard === TypeCard.City? 'cities__image-wrapper': 'near-places__image-wrapper','place-card__image-wrapper');
+  const buttonClass = cn('place-card__bookmark-button button', {'place-card__bookmark-button--active': isFavorite});
 
   return (
     <article
@@ -54,7 +63,9 @@ function PlaceCard({ offer, typeCard , handleMouseEnter, handleMouseLeave }: Pla
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${isFavorite ? 'place-card__bookmark-button--active' : ''}`} type="button">
+          <button className={buttonClass} type="button"
+            onClick={() => changeFavorites(id,Number(!isFavorite))}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

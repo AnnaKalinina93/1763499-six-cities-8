@@ -1,4 +1,6 @@
 import { Offer } from '../../types/offers';
+import { postAddToFavorites } from '../../store/favorites-data/api-action';
+import { useDispatch } from 'react-redux';
 
 type FavoritesLocationsProps = {
   city: string | Offer[],
@@ -7,7 +9,14 @@ type FavoritesLocationsProps = {
 
 function FavoritesLocations({ city, offers }: FavoritesLocationsProps): JSX.Element {
 
+  const dispatch = useDispatch();
+
+  const changeFavorites =  (id: string, status: number) => {
+    dispatch(postAddToFavorites(id, status));
+  };
+
   const myOffers = offers as Offer[];
+
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
@@ -19,7 +28,7 @@ function FavoritesLocations({ city, offers }: FavoritesLocationsProps): JSX.Elem
       </div>
       <div className="favorites__places">
         {myOffers.map((offer) =>
-          offer.isFavorite ? (
+          offer.isFavorite && (
             <article key={offer.id} className="favorites__card place-card">
               <div className="favorites__image-wrapper place-card__image-wrapper">
                 <a href="/#">
@@ -45,6 +54,7 @@ function FavoritesLocations({ city, offers }: FavoritesLocationsProps): JSX.Elem
                   <button
                     className="place-card__bookmark-button place-card__bookmark-button--active button"
                     type="button"
+                    onClick={() => changeFavorites(offer.id,Number(!offer.isFavorite))}
                   >
                     <svg
                       className="place-card__bookmark-icon"
@@ -66,13 +76,12 @@ function FavoritesLocations({ city, offers }: FavoritesLocationsProps): JSX.Elem
                   </div>
                 </div>
                 <h2 className="place-card__name">
-                  <a href="#">{offer.title}</a>
+                  <a href="/#">{offer.title}</a>
                 </h2>
                 <p className="place-card__type">{offer.type}</p>
               </div>
             </article>
-          )
-            : '' )}
+          ))}
       </div>
     </li>
   );

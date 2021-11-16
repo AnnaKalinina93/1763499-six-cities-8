@@ -6,14 +6,9 @@ import Favorites from '../../pages/favorites/favorites';
 import Property from '../../pages/property/property';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../../components/private-route/private-route';
-import { Offers } from '../../types/offers';
 import browserHistory from '../../browser-history';
 
-type AppProps = {
-  offers: Offers;
-};
-
-function App({ offers }: AppProps): JSX.Element {
+function App(): JSX.Element {
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
@@ -26,7 +21,7 @@ function App({ offers }: AppProps): JSX.Element {
         <PrivateRoute
           exact
           path={AppRoute.Favorites}
-          render={() => <Favorites offers={offers} />}
+          render={() => <Favorites />}
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>

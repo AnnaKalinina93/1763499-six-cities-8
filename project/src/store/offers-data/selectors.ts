@@ -4,6 +4,7 @@ import { Offers, Offer } from '../../types/offers';
 import { createSelector } from 'reselect';
 import { getActiveCity, getActiveSortType } from '../ui-state/selectors';
 import { getSortSelectedOffers } from '../../util';
+// import { favoritesChange } from '../favorites-data/selectors';
 
 export const getOffers = (state: State): Offers => state[NameSpace.offers].offers;
 export const getOffersLoading  = (state: State): boolean => state[NameSpace.offers].offersLoading;
@@ -16,8 +17,18 @@ export const getNearbyOffersLoading = (state: State): boolean  => state[NameSpac
 export const getNearbyOffersError = (state: State): boolean  => state[NameSpace.offers].nearbyOffersError;
 
 
-export const getSortOffers = createSelector([getOffers, getActiveCity, getActiveSortType],(offers, activeCity, activeSortType)=>{
-  const selectedOffers: Offers = offers.filter(
+export const getSortOffers = createSelector([getOffers, getActiveCity, getActiveSortType],(correntOffers, activeCity, activeSortType) => {
+  const selectedOffers: Offers = correntOffers.filter(
     (offer) => offer.city.name === activeCity);
   return getSortSelectedOffers(activeSortType, selectedOffers);
 });
+
+// export const getChangeOffers = createSelector([getSortOffers, favoritesChange],(sortOffers, offer) => {
+//   if ( offer ) {
+//     const index = sortOffers.findIndex((item)=>item.id === offer.id);
+//     offers[index]= offer;
+//     return sortOffers;
+//   } else {
+//     return sortOffers;
+//   }
+// });

@@ -4,12 +4,21 @@ import Sorting from '../../components/sorting/sorting';
 import PlaceCard from '../../components/place-card/place-card';
 import Map from '../map/map';
 import { TypeCard } from '../../const';
+import { useSelector } from 'react-redux';
+import { favoritesChange } from '../../store/favorites-data/selectors';
 
 type PlacesProp = {
   offers: Offers,
 }
 
 function CitiesPlacesContainer({offers}: PlacesProp): JSX.Element {
+  // вот тут когда разлогиниваешься сначала перерисоывается offers , после он применяет условие if, так как состояние favoriteOffer еще
+  // не изменилось , а после меняется состояние favoriteOffers, но уже тогда проверку не проходит и offers остается измененным.
+  const favoriteOffer = useSelector(favoritesChange);
+  if (favoriteOffer) {
+    const index = offers.findIndex((offer)=>offer.id === favoriteOffer.id);
+    offers[index]= favoriteOffer;
+  }
 
   const [activeOffer, setActiveOffer] = useState('-1');
 

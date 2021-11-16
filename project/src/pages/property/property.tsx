@@ -12,6 +12,7 @@ import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Reviews  from '../../components/reviews/reviews';
 import './property.css';
 import { getNearbyOffers, getOffer, getOfferError, getOfferLoading } from '../../store/offers-data/selectors';
+import FavoriteButton from '../../components/favorite-button/favorite-button';
 
 const COUNT_NEARBY_OFFERS = 3;
 type ParamTypes = {
@@ -24,7 +25,6 @@ function Property(): JSX.Element {
   const offerLoading = useSelector(getOfferLoading);
   const offerError = useSelector(getOfferError);
   const nearbyOffers = useSelector(getNearbyOffers);
-
   const dispatch = useDispatch();
 
   const  offerRequest = (id: string) => {
@@ -98,21 +98,7 @@ function Property(): JSX.Element {
               )}
               <div className="property__name-wrapper">
                 <h1 className="property__name">{title}</h1>
-                <button
-                  className={`property__bookmark-button button ${
-                    isFavorite ? 'property__bookmark-button button--active' : ''
-                  }`}
-                  type="button"
-                >
-                  <svg
-                    className="property__bookmark-icon"
-                    width="31"
-                    height="33"
-                  >
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <FavoriteButton idActive={id} isFavorite={isFavorite}/>
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">

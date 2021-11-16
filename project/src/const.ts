@@ -59,7 +59,7 @@ export enum APIRoute {
   Offers = '/hotels',
   Login = '/login',
   Logout = '/logout',
-  Favorites = '/favorites',
+  Favorites = '/favorite',
   Comments = '/comments',
 }
 
@@ -70,4 +70,5 @@ export const errorMessages = {
   comments: 'Не удалось загрузить отзывы, попробуйте перезагрузить страницу.',
   nearbyOffers: 'Не удалось загрузить места поблизости, попробуйте перезагрузить страницу.',
   postComment: 'Не удалось загрузить отзыв, попробуйте еще раз',
+  postAddtoFavorites: 'Добавить в избранное можно только авторизованным пользователям.',
 };
