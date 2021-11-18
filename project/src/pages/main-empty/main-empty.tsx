@@ -1,8 +1,8 @@
 type MainEmptyProps = {
-  activeCity: string,
-}
+  activeCity: string;
+};
 
-function MainEmpty({activeCity}: MainEmptyProps): JSX.Element {
+function MainEmpty({ activeCity }: MainEmptyProps): JSX.Element {
   return (
     <div className="cities">
       <div className="cities__places-container cities__places-container--empty container">
@@ -10,7 +10,8 @@ function MainEmpty({activeCity}: MainEmptyProps): JSX.Element {
           <div className="cities__status-wrapper tabs__content">
             <b className="cities__status">No places to stay available</b>
             <p className="cities__status-description">
-              We could not find any property available at the moment in {activeCity}
+              We could not find any property available at the moment in{' '}
+              {activeCity}
             </p>
           </div>
         </section>

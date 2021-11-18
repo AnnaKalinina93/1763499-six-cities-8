@@ -1,30 +1,29 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { postAddToFavorites } from '../../store/favorites-data/api-action';
+import { postChangeFavorites } from '../../store/favorites-data/api-action';
+import cn from 'classnames';
 
- type FavoriteButtonProps = {
-  idActive: string,
-  isFavorite: boolean,
-}
+type FavoriteButtonProps = {
+  idActive: string;
+  isFavorite: boolean;
+};
 
-function FavoriteButton({ idActive, isFavorite }:FavoriteButtonProps): JSX.Element {
-
+function FavoriteButton({
+  idActive,
+  isFavorite,
+}: FavoriteButtonProps): JSX.Element {
   const dispatch = useDispatch();
-  const changeFavorites =  (id: string, status: number) => {
-    dispatch(postAddToFavorites(id, status));
+  const changeFavorites = (id: string, status: number) => {
+    dispatch(postChangeFavorites(id, status));
   };
-  const [isFavoriteActive,setIsFavoriteActive] = useState(isFavorite);
+
+  const buttonClass = cn('property__bookmark-button button', {'property__bookmark-button--active' : isFavorite});
+
   return (
     <button
-      className={
-        isFavoriteActive
-          ? 'property__bookmark-button--active button'
-          : 'property__bookmark-button button'
-      }
+      className={buttonClass}
       type="button"
       onClick={() => {
         changeFavorites(idActive, Number(!isFavorite));
-        setIsFavoriteActive(!isFavoriteActive);
       }}
     >
       <svg className="property__bookmark-icon" width="31" height="33">

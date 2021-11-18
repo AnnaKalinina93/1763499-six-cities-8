@@ -2,10 +2,10 @@ import  dayjs from 'dayjs';
 import { Review } from '../../types/reviews';
 
 type ReviewsItemProps = {
-  review : Review,
-}
+  review: Review;
+};
 
-function ReviewsItem({review} : ReviewsItemProps): JSX.Element {
+function ReviewsItem({ review }: ReviewsItemProps): JSX.Element {
   return (
     <li className="reviews__item">
       <div className="reviews__user user">

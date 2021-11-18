@@ -2,20 +2,26 @@ import React from 'react';
 import { ChangeEvent } from 'react';
 
 type FormRatingProps = {
-  count: string,
-  title: string,
-  onRatingChange : ({ target }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void,
-  value: string,
-}
+  count: string;
+  title: string;
+  onRatingChange: ({
+    target,
+  }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  value: string;
+};
 
-function FormRating({ count, title, onRatingChange, value }: FormRatingProps): JSX.Element {
-
+function FormRating({
+  count,
+  title,
+  onRatingChange,
+  value,
+}: FormRatingProps): JSX.Element {
   return (
-    <React.Fragment >
+    <React.Fragment>
       <input
         className="form__rating-input visually-hidden"
         name="rating"
-        value= {count}
+        value={count}
         id={`${count}-stars`}
         type="radio"
         checked={count === value}

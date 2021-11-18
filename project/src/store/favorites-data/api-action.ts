@@ -19,7 +19,7 @@ export const fetchFavoritesOffersAction = (): ThunkActionResult =>
     }
   };
 
-export const postAddToFavorites = (id: string, status: number): ThunkActionResult =>
+export const postChangeFavorites = (id: string, status: number): ThunkActionResult =>
   async (dispatch, _, api) => {
     try {
       const { data } = await api.post<ServerOffer>(`${APIRoute.Favorites}/${id}/${status}`);

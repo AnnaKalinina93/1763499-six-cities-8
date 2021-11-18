@@ -13,7 +13,8 @@ export const favoritesOffersRequest = createAction(ActionType.FavoriteOffersRequ
 
 export const favoritesOffersFailed = createAction(ActionType.FavoriteOffersFailed);
 
-export const favoritesChange = createAction(ActionType.FavoritesChange,
+export const favoritesChange = createAction(
+  ActionType.FavoritesChange,
   (offer: Offer) => ({
     payload: offer,
   }),

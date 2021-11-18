@@ -6,7 +6,6 @@ import { getActiveCity } from '../../store/ui-state/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 
 function Tabs(): JSX.Element {
-
   const activeCity = useSelector(getActiveCity);
   const dispatch = useDispatch();
   const onUserAnswer = (city: string) => {
@@ -46,4 +45,3 @@ function Tabs(): JSX.Element {
   );
 }
 export default Tabs;
-

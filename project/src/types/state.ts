@@ -38,7 +38,7 @@ export type UiState = {
 }
 
 export type FavoritesData = {
-  favoritesOffers : Offers,
+  favoritesOffers: Offers,
   favoritesOffersLoading: boolean,
   favoritesOffersError: boolean,
   favoritesOffer: Offer | null,

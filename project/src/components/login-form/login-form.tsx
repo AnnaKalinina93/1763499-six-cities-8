@@ -1,11 +1,12 @@
 import cn from 'classnames';
-import { useState, FormEvent, ChangeEvent } from 'react';
+import { useState, FormEvent, ChangeEvent, useEffect } from 'react';
 import './login-form.css';
 import { useDispatch, useSelector } from 'react-redux';
 import PacmanLoader from 'react-spinners/ClipLoader';
 import { AuthData } from '../../types/auth-data';
 import { loginAction } from '../../store/user-process/api-action';
-import { getLoginLoading } from '../../store/user-process/selectors';
+import { getAuthorizationStatus, getLoginLoading } from '../../store/user-process/selectors';
+import { fetchOffersAction } from '../../store/offers-data/api-action';
 
 const formField = {
   email: 'E-mail',
@@ -25,12 +26,17 @@ type FormStateProps = { [key: string]: InputProps};
 function LoginForm(): JSX.Element {
 
   const loginLoading = useSelector(getLoginLoading);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
 
   const dispatch = useDispatch();
 
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
   };
+
+  useEffect(()=>{
+    dispatch(fetchOffersAction());
+  },[authorizationStatus]);
 
   const [formState, setFormState] = useState<FormStateProps>({
     email: {

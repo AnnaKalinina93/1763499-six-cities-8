@@ -9,17 +9,16 @@ import FavoritesEmpty from '../favorites-empty/favorites-empty';
 import FavoritesList from '../../components/favorites-list/favorites-list';
 
 function Favorites(): JSX.Element {
-
   const favoritesOffers = useSelector(getFavoritesOffers);
   const favoritesOffersLoading = useSelector(getFavoritesOffersLoading);
 
   const dispatch = useDispatch();
 
-  const  favoritesOffersRequest = () => {
+  const favoritesOffersRequest = () => {
     dispatch(fetchFavoritesOffersAction());
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     favoritesOffersRequest();
   }, []);
 
@@ -38,7 +37,7 @@ function Favorites(): JSX.Element {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesList/>
+            <FavoritesList />
           </section>
         </div>
       </main>

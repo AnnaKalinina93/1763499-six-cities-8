@@ -6,11 +6,10 @@ import { getReviews } from '../../store/comments-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 type ReviewsProps = {
-  id: string,
-}
+  id: string;
+};
 
 function Reviews({ id }: ReviewsProps): JSX.Element {
-
   const reviews = useSelector(getReviews);
   const authorizationStatus = useSelector(getAuthorizationStatus);
 
@@ -29,5 +28,3 @@ function Reviews({ id }: ReviewsProps): JSX.Element {
 }
 
 export default Reviews;
-
-

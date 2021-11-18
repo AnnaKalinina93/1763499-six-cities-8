@@ -6,19 +6,19 @@ import { uiState } from './ui-state/ui-state';
 import { favoritesOffersData } from './favorites-data/favorites-data';
 
 export enum NameSpace {
-  ui = 'UI_STATE',
-  offers = 'OFFERS',
-  comments = 'COMMENTS',
-  user = 'USER',
-  favorites = 'FAVORITES'
+  Ui = 'UI_STATE',
+  Offers = 'OFFERS',
+  Comments = 'COMMENTS',
+  User = 'USER',
+  Favorites = 'FAVORITES'
 }
 
 export const rootReducer = combineReducers({
-  [NameSpace.ui]: uiState,
-  [NameSpace.offers]: offersData,
-  [NameSpace.comments]: commentsData,
-  [NameSpace.user]: userProcess,
-  [NameSpace.favorites]: favoritesOffersData,
+  [NameSpace.Ui]: uiState,
+  [NameSpace.Offers]: offersData,
+  [NameSpace.Comments]: commentsData,
+  [NameSpace.User]: userProcess,
+  [NameSpace.Favorites]: favoritesOffersData,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

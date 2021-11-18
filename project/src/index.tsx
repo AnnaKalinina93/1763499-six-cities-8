@@ -7,7 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createAPI } from './services/api';
 import { requireAuthorization } from './store/user-process/action';
-//import { fetchOffersAction } from './store/offers-data/api-action';
+import { fetchOffersAction } from './store/offers-data/api-action';
 import { checkAuthAction } from './store/user-process/api-action';
 import { AuthorizationStatus } from './const';
 import { redirect } from './store/middlewares/redirect';
@@ -28,7 +28,7 @@ const store = configureStore({
 });
 
 store.dispatch(checkAuthAction());
-//store.dispatch(fetchOffersAction());
+store.dispatch(fetchOffersAction());
 
 ReactDOM.render(
   <React.StrictMode>

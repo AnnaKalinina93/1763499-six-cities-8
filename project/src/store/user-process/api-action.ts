@@ -11,10 +11,8 @@ import { redirectToRoute } from '../middlewares/action';
 import { saveToken, dropToken } from '../../services/token';
 import { APIRoute, AppRoute, AuthorizationStatus, errorMessages } from '../../const';
 import { AuthData } from '../../types/auth-data';
-import { adaptOffer, adaptUser } from '../../services/adapter';
+import { adaptUser } from '../../services/adapter';
 import {  AuthInfoServer } from '../../types/users';
-import { ServerOffers } from '../../types/offers';
-import { offersSucceeded } from '../offers-data/action';
 import { favoritesOfferReset } from '../favorites-data/action';
 
 export const checkAuthAction = (): ThunkActionResult =>
@@ -52,9 +50,6 @@ export const logoutAction = (): ThunkActionResult =>
       dropToken();
       dispatch(requireLogout());
       dispatch(favoritesOfferReset());
-      const { data } = await api.get<ServerOffers>(APIRoute.Offers);
-      const offers = data.map((offer) => adaptOffer(offer));
-      dispatch(offersSucceeded(offers));
       dispatch(redirectToRoute(AppRoute.Main));
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     } catch {

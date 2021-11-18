@@ -36,7 +36,7 @@ export const favoritesOffersData = createReducer(initialState, (builder) => {
 
     .addCase(favoritesChange, (state, action) => {
       state.favoritesOffer = action.payload;
-      state.favoritesOffers = state.favoritesOffers.filter((offer) => offer.id !== action.payload.id );
+      state.favoritesOffers = state.favoritesOffers.filter((offer) => offer.id !== action.payload.id);
     })
 
     .addCase(favoritesOfferReset, (state) => {

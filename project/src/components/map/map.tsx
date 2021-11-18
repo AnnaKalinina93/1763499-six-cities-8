@@ -6,11 +6,11 @@ import useMap from '../../hooks/useMap';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 
 type MapProps = {
-  offers : Offers,
-  activeId : string,
-  typeCard : string,
-  className : string,
-}
+  offers: Offers;
+  activeId: string;
+  typeCard: string;
+  className: string;
+};
 
 const ICON_WIDTH = 30;
 const ICON_HEIGHT = 40;
@@ -27,8 +27,7 @@ const currentCustomIcon = new Icon({
   iconAnchor: [15, 40],
 });
 
-function Map({ offers, activeId, typeCard, className }: MapProps) :JSX.Element {
-
+function Map({ offers, activeId, typeCard, className }: MapProps): JSX.Element {
   const cityActive = offers[0];
   const mapRef = useRef(null);
   const map = useMap(mapRef, cityActive);
@@ -53,16 +52,12 @@ function Map({ offers, activeId, typeCard, className }: MapProps) :JSX.Element {
 
   useEffect(() => {
     const { city } = cityActive;
-    map?.setView([city.location.latitude, city.location.longitude], city.location.zoom);
+    map?.setView(
+      [city.location.latitude, city.location.longitude],
+      city.location.zoom);
   });
 
-  return (
-    <section
-      className={`${className} map`}
-      ref={mapRef}
-    >
-    </section>
-  );
+  return <section className={`${className} map`} ref={mapRef}></section>;
 }
 
 export default Map;

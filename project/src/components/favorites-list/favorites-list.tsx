@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { getFavoritesOffers } from '../../store/favorites-data/selectors';
 import { citiesList } from '../../const';
 
-
 function FavoritesList(): JSX.Element {
   const favoritesOffers = useSelector(getFavoritesOffers);
 
@@ -17,7 +16,11 @@ function FavoritesList(): JSX.Element {
       {newArray.map(
         ([city, array]) =>
           array.length !== 0 && (
-            <FavoritesLocations key={city as string} city={city} offers={array} />
+            <FavoritesLocations
+              key={city as string}
+              city={city}
+              offers={array}
+            />
           ))}
     </ul>
   );

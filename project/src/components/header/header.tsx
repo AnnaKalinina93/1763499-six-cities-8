@@ -19,4 +19,5 @@ function Header(): JSX.Element {
     </header>
   );
 }
+
 export default Header;
