@@ -6,11 +6,10 @@ import Map from '../map/map';
 import { TypeCard } from '../../const';
 
 type PlacesProp = {
-  offers: Offers,
-}
+  offers: Offers;
+};
 
-function CitiesPlacesContainer({offers}: PlacesProp): JSX.Element {
-
+function CitiesPlacesContainer({ offers }: PlacesProp): JSX.Element {
   const [activeOffer, setActiveOffer] = useState('-1');
 
   const handleMouseEnter = (offer: Offer): void => {

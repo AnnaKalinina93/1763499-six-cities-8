@@ -12,28 +12,29 @@ import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Reviews  from '../../components/reviews/reviews';
 import './property.css';
 import { getNearbyOffers, getOffer, getOfferError, getOfferLoading } from '../../store/offers-data/selectors';
+import FavoriteButton from '../../components/favorite-button/favorite-button';
 
 const COUNT_NEARBY_OFFERS = 3;
+const COUNT_IMAGES = 6;
+
 type ParamTypes = {
   id: string;
 };
 
 function Property(): JSX.Element {
-
   const offer = useSelector(getOffer);
   const offerLoading = useSelector(getOfferLoading);
   const offerError = useSelector(getOfferError);
   const nearbyOffers = useSelector(getNearbyOffers);
-
   const dispatch = useDispatch();
 
-  const  offerRequest = (id: string) => {
+  const offerRequest = (id: string) => {
     dispatch(fetchOfferAction(id));
   };
   const nearbyOffersRequest = (id: string) => {
     dispatch(fetchNearbyOffers(id));
   };
-  const  reviewsRequest = (id:string) => {
+  const reviewsRequest = (id: string) => {
     dispatch(fetchComments(id));
   };
 
@@ -46,11 +47,11 @@ function Property(): JSX.Element {
   }, [id]);
 
   if (!offerError) {
-    if ( offerLoading  || !offer) {
-      return <LoadingScreen/>;
+    if (offerLoading || !offer) {
+      return <LoadingScreen />;
     }
   } else {
-    return <NotFoundScreen/>;
+    return <NotFoundScreen />;
   }
 
   const {
@@ -75,18 +76,15 @@ function Property(): JSX.Element {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {images.map((image) => {
-                const keyValue = image;
-                return (
-                  <div key={keyValue} className="property__image-wrapper">
-                    <img
-                      className="property__image"
-                      src={image}
-                      alt="Photo studio"
-                    />
-                  </div>
-                );
-              })}
+              {images.slice(0, COUNT_IMAGES).map((image) => (
+                <div key={image} className="property__image-wrapper">
+                  <img
+                    className="property__image"
+                    src={image}
+                    alt="Photo studio"
+                  />
+                </div>
+              ))}
             </div>
           </div>
           <div className="property__container container">
@@ -98,21 +96,7 @@ function Property(): JSX.Element {
               )}
               <div className="property__name-wrapper">
                 <h1 className="property__name">{title}</h1>
-                <button
-                  className={`property__bookmark-button button ${
-                    isFavorite ? 'property__bookmark-button button--active' : ''
-                  }`}
-                  type="button"
-                >
-                  <svg
-                    className="property__bookmark-icon"
-                    width="31"
-                    height="33"
-                  >
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <FavoriteButton idActive={id} isFavorite={isFavorite} />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
@@ -176,7 +160,7 @@ function Property(): JSX.Element {
                   <p className="property__text">{description}</p>
                 </div>
               </div>
-              <Reviews id={id}/>
+              <Reviews id={id} />
             </div>
           </div>
           <Map
@@ -193,15 +177,13 @@ function Property(): JSX.Element {
               Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-              {nearbyOffers
-                .slice(0, COUNT_NEARBY_OFFERS)
-                .map((item) => (
-                  <PlaceCard
-                    offer={item}
-                    key={item.id}
-                    typeCard={TypeCard.NearPlaces}
-                  />
-                ))}
+              {nearbyOffers.slice(0, COUNT_NEARBY_OFFERS).map((item) => (
+                <PlaceCard
+                  offer={item}
+                  key={item.id}
+                  typeCard={TypeCard.NearPlaces}
+                />
+              ))}
             </div>
           </section>
         </div>

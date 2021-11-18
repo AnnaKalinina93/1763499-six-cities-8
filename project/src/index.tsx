@@ -10,7 +10,6 @@ import { requireAuthorization } from './store/user-process/action';
 import { fetchOffersAction } from './store/offers-data/api-action';
 import { checkAuthAction } from './store/user-process/api-action';
 import { AuthorizationStatus } from './const';
-import { offers } from './mocks/offers';
 import { redirect } from './store/middlewares/redirect';
 import {configureStore} from '@reduxjs/toolkit';
 
@@ -35,7 +34,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store = {store}>
       <ToastContainer />
-      <App offers= {offers}/>
+      <App />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'),

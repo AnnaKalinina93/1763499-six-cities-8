@@ -2,6 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { UiState } from '../../types/state';
 import { sortType, citiesList } from '../../const';
 import { cityChange, sortTypeChange } from './action';
+
 const initialState: UiState = {
   activeCity: citiesList.Paris,
   activeSortType: sortType.popular,

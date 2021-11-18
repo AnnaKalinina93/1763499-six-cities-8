@@ -2,7 +2,7 @@ import { Offer, Offers } from '../types/offers';
 import { AuthorizationStatus } from '../const';
 import { AuthInfo } from './users';
 import { Reviews } from './reviews';
-import {RootState} from '../store/root-reduser';
+import { RootState } from '../store/root-reduser';
 
 
 export type State = RootState;
@@ -35,4 +35,11 @@ export type CommentsData = {
 export type UiState = {
   activeCity: string,
   activeSortType: string,
+}
+
+export type FavoritesData = {
+  favoritesOffers: Offers,
+  favoritesOffersLoading: boolean,
+  favoritesOffersError: boolean,
+  favoritesOffer: Offer | null,
 }

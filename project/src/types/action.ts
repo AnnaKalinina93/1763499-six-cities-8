@@ -30,6 +30,11 @@ export enum ActionType {
   CommentsFailed = 'reviews/commentsFailed',
   PostReviewSucceeded = 'reviews/postReviewSucceeded',
   PostReviewReset = 'reviews/postReviewReset',
+  FavoriteOffersRequest = 'favorite/offersRequest',
+  FavoriteOffersSucceeded = 'favorites/offersSucceeded',
+  FavoriteOffersFailed = 'favorites/offersFailed',
+  FavoritesChange = 'favorites/favoritesChange',
+  FavoritesOfferReset = 'favorites/favoritesOfferReset'
 }
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;

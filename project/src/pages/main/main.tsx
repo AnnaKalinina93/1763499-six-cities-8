@@ -10,7 +10,6 @@ import { getActiveCity } from '../../store/ui-state/selectors';
 import { useSelector } from 'react-redux';
 
 function Main(): JSX.Element {
-
   const activeCity = useSelector(getActiveCity);
   const offersLoading = useSelector(getOffersLoading);
   const offersError = useSelector(getOffersError);

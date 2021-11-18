@@ -3,15 +3,27 @@ import { Link } from 'react-router-dom';
 import cn from 'classnames';
 import { TypeCard } from '../../const';
 import './place-card.css';
+import { useDispatch } from 'react-redux';
+import { postChangeFavorites } from '../../store/favorites-data/api-action';
 
 type PlaceCardProps = {
-  offer : Offer,
-  typeCard: string,
-  handleMouseEnter?: () => void,
-  handleMouseLeave?: () => void,
-}
+  offer: Offer;
+  typeCard: string;
+  handleMouseEnter?: () => void;
+  handleMouseLeave?: () => void;
+};
 
-function PlaceCard({ offer, typeCard , handleMouseEnter, handleMouseLeave }: PlaceCardProps): JSX.Element {
+function PlaceCard({
+  offer,
+  typeCard,
+  handleMouseEnter,
+  handleMouseLeave,
+}: PlaceCardProps): JSX.Element {
+  const dispatch = useDispatch();
+  const changeFavorites = (id: string, status: number) => {
+    dispatch(postChangeFavorites(id, status));
+  };
+
   const {
     id,
     isFavorite,
@@ -21,10 +33,11 @@ function PlaceCard({ offer, typeCard , handleMouseEnter, handleMouseLeave }: Pla
     rating,
     title,
     type,
-  } =offer;
+  } = offer;
 
   const placeClass = cn(typeCard === TypeCard.City? 'cities__place-card' : 'near-places__card','place-card');
   const imgClass = cn(typeCard === TypeCard.City? 'cities__image-wrapper': 'near-places__image-wrapper','place-card__image-wrapper');
+  const buttonClass = cn('place-card__bookmark-button button', {'place-card__bookmark-button--active': isFavorite});
 
   return (
     <article
@@ -32,11 +45,11 @@ function PlaceCard({ offer, typeCard , handleMouseEnter, handleMouseLeave }: Pla
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      { isPremium ?
+      {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
-        </div> :
-        ''}
+        </div>
+      )}
       <div className={imgClass}>
         <Link to={`/offer/${id}`}>
           <img
@@ -54,7 +67,11 @@ function PlaceCard({ offer, typeCard , handleMouseEnter, handleMouseLeave }: Pla
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${isFavorite ? 'place-card__bookmark-button--active' : ''}`} type="button">
+          <button
+            className={buttonClass}
+            type="button"
+            onClick={() => changeFavorites(id, Number(!isFavorite))}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -63,7 +80,7 @@ function PlaceCard({ offer, typeCard , handleMouseEnter, handleMouseLeave }: Pla
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${Math.round(rating)*20}%` }}></span>
+            <span style={{ width: `${Math.round(rating) * 20}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

@@ -13,6 +13,7 @@ import { APIRoute, AppRoute, AuthorizationStatus, errorMessages } from '../../co
 import { AuthData } from '../../types/auth-data';
 import { adaptUser } from '../../services/adapter';
 import {  AuthInfoServer } from '../../types/users';
+import { favoritesOfferReset } from '../favorites-data/action';
 
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _, api) => {
@@ -48,6 +49,7 @@ export const logoutAction = (): ThunkActionResult =>
       api.delete(APIRoute.Logout);
       dropToken();
       dispatch(requireLogout());
+      dispatch(favoritesOfferReset());
       dispatch(redirectToRoute(AppRoute.Main));
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     } catch {

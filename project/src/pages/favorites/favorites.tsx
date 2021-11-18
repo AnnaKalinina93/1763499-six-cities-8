@@ -1,18 +1,34 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
-import { Offers } from '../../types/offers';
-import { citiesList } from '../../const';
-import FavoritesLocations from '../../components/favorites-locations/favorites-locations';
+import { useSelector, useDispatch } from 'react-redux';
+import { getFavoritesOffers, getFavoritesOffersLoading } from '../../store/favorites-data/selectors';
+import LoadingScreen from '../loading-screen/loading-screen';
+import { fetchFavoritesOffersAction } from '../../store/favorites-data/api-action';
+import { useEffect } from 'react';
+import FavoritesEmpty from '../favorites-empty/favorites-empty';
+import FavoritesList from '../../components/favorites-list/favorites-list';
 
-type FavoriteProps = {
-  offers: Offers;
-  //onReplayButtonClick: () => void;
-};
-function Favorites({ offers }: FavoriteProps): JSX.Element {
-  const newArray = Object.entries(citiesList).map(([key, city]) => [
-    city,
-    offers.filter((offer) => offer.city.name === city),
-  ]);
+function Favorites(): JSX.Element {
+  const favoritesOffers = useSelector(getFavoritesOffers);
+  const favoritesOffersLoading = useSelector(getFavoritesOffersLoading);
+
+  const dispatch = useDispatch();
+
+  const favoritesOffersRequest = () => {
+    dispatch(fetchFavoritesOffersAction());
+  };
+
+  useEffect(() => {
+    favoritesOffersRequest();
+  }, []);
+
+  if (favoritesOffersLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (!favoritesOffers.length) {
+    return <FavoritesEmpty />;
+  }
 
   return (
     <div className="page">
@@ -21,14 +37,7 @@ function Favorites({ offers }: FavoriteProps): JSX.Element {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              {newArray.map(([city, array]) =>
-                array.length !== 0 ? (
-                  <FavoritesLocations city={city} offers={array} />
-                ) : (
-                  ''
-                ))}
-            </ul>
+            <FavoritesList />
           </section>
         </div>
       </main>

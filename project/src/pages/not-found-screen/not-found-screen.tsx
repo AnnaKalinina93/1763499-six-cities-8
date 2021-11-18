@@ -13,7 +13,7 @@ function NotFoundScreen(): JSX.Element {
           </div>
         </div>
       </header>
-      <section className= "property">
+      <section className="property">
         <div className="property__container container">
           <h1 className="property__name">404. Page not found</h1>
           <p className="property__inside-title">

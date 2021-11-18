@@ -7,11 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getIsPostReview } from '../../store/comments-data/selectors';
 
 type FormCommentProps = {
-  id: string,
-}
+  id: string;
+};
 
 function FormComment({ id }: FormCommentProps): JSX.Element {
-
   const isPostReview = useSelector(getIsPostReview);
 
   const dispatch = useDispatch();
@@ -20,13 +19,16 @@ function FormComment({ id }: FormCommentProps): JSX.Element {
     dispatch(postComments(idActive, { comment, rating }));
   };
 
-  const [formState, setFormState] = useState <{[key:string]:string}>({
+  const [formState, setFormState] = useState<{ [key: string]: string }>({
     rating: '0',
     review: '',
   });
-  const isDisabled = formState.review.length < MIN_REVIEWS || formState.rating === '0';
-  const handleChange = ({target}: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const {name, value} = target;
+  const isDisabled =
+    formState.review.length < MIN_REVIEWS || formState.rating === '0';
+  const handleChange = ({
+    target,
+  }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = target;
     setFormState({
       ...formState,
       [name]: value,
@@ -43,7 +45,10 @@ function FormComment({ id }: FormCommentProps): JSX.Element {
   }, [isPostReview]);
 
   return (
-    <form className="reviews__form form" action="#" method="post"
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
       onSubmit={(evt: FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
         const comment = formState.review;
@@ -55,16 +60,17 @@ function FormComment({ id }: FormCommentProps): JSX.Element {
         Your review
       </label>
       <div className="reviews__rating-form form__rating">
-        {
-          Object.entries(ratingMap).reverse().map(([key,title])=> (
+        {Object.entries(ratingMap)
+          .reverse()
+          .map(([key, title]) => (
             <FormRating
               key={key}
               count={key}
               title={title}
               value={formState.rating}
               onRatingChange={handleChange}
-            />))
-        }
+            />
+          ))}
       </div>
       <textarea
         className="reviews__textarea form__textarea"

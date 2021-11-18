@@ -4,9 +4,9 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { logoutAction } from '../../store/user-process/api-action';
 import './header-nav.css';
 import { getAuthorizationStatus, getUser } from '../../store/user-process/selectors';
+import { fetchOffersAction } from '../../store/offers-data/api-action';
 
 function HeaderNav(): JSX.Element {
-
   const authorizationStatus = useSelector(getAuthorizationStatus);
   const user = useSelector(getUser);
 
@@ -14,6 +14,7 @@ function HeaderNav(): JSX.Element {
 
   const logout = () => {
     dispatch(logoutAction());
+    dispatch(fetchOffersAction());
   };
 
   return (
@@ -24,9 +25,10 @@ function HeaderNav(): JSX.Element {
             className="header__nav-link header__nav-link--profile"
             to={AppRoute.Favorites}
           >
-            <div className="header__avatar-wrapper user__avatar-wrapper" >
-              { authorizationStatus === AuthorizationStatus.Auth &&
-                <img className="avatar" src={user?.avatarUrl} alt="avatar"/> }
+            <div className="header__avatar-wrapper user__avatar-wrapper">
+              {authorizationStatus === AuthorizationStatus.Auth && (
+                <img className="avatar" src={user?.avatarUrl} alt="avatar" />
+              )}
             </div>
             <span className="header__user-name user__name">{user?.email}</span>
           </Link>

@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { OffersData } from '../../types/state';
+import { favoritesChange } from '../favorites-data/action';
 import {
   offersFailed,
   offersRequest,
@@ -31,13 +32,13 @@ export const offersData = createReducer(initialState, (builder) => {
       state.offersLoading = true;
     })
 
-    .addCase(offersSucceeded,(state, action) => {
+    .addCase(offersSucceeded, (state, action) => {
       state.offersLoading = false;
       state.offersError = false;
       state.offers = action.payload;
     })
 
-    .addCase(offersFailed,(state) => {
+    .addCase(offersFailed, (state) => {
       state.offersLoading = false;
       state.offersError = true;
     })
@@ -70,6 +71,21 @@ export const offersData = createReducer(initialState, (builder) => {
     .addCase(nearbyOffersFailed, (state) => {
       state.nearbyOffersLoading = false;
       state.nearbyOffersError = true;
+    })
+
+    .addCase(favoritesChange, (state, action) => {
+      const index = state.offers.findIndex((offer) => offer.id === action.payload.id);
+      if (index !== -1) {
+        state.offers[index].isFavorite = action.payload.isFavorite;
+      }
+      if (state.offer?.id === action.payload.id) {
+        state.offer.isFavorite = action.payload.isFavorite;
+      }
+      const nearbyIndex = state.nearbyOffers.findIndex((offer) => offer.id === action.payload.id);
+      if (nearbyIndex !== -1) {
+        state.nearbyOffers[nearbyIndex].isFavorite = action.payload.isFavorite;
+      }
     });
+
 });
 
