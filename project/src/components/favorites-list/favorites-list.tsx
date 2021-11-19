@@ -1,28 +1,23 @@
+import { Offers } from '../../types/offers';
 import FavoritesLocations from '../favorites-locations/favorites-locations';
-import { useSelector } from 'react-redux';
-import { getFavoritesOffers } from '../../store/favorites-data/selectors';
-import { citiesList } from '../../const';
 
-function FavoritesList(): JSX.Element {
-  const favoritesOffers = useSelector(getFavoritesOffers);
-
-  const newArray = Object.entries(citiesList).map(([key, city]) => [
-    city,
-    favoritesOffers.filter((offer) => offer.city.name === city),
-  ]);
-
+type FavoritesListProps = {
+  offers: { [key: string]: Offers };
+};
+function FavoritesList({ offers }: FavoritesListProps): JSX.Element {
   return (
-    <ul className="favorites__list">
-      {newArray.map(
-        ([city, array]) =>
-          array.length !== 0 && (
-            <FavoritesLocations
-              key={city as string}
-              city={city}
-              offers={array}
-            />
-          ))}
-    </ul>
+    <section className="favorites">
+      <h1 className="favorites__title">Saved listing</h1>
+      <ul className="favorites__list">
+        {Object.entries(offers).map(([city, currentOffers]) => (
+          <FavoritesLocations
+            key={city}
+            city={city}
+            offers={currentOffers}
+          />
+        ))}
+      </ul>
+    </section>
   );
 }
 

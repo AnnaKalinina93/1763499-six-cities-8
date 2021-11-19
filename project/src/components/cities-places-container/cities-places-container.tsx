@@ -1,5 +1,5 @@
-import { Offers, Offer } from '../../types/offers';
-import { useState } from 'react';
+import { Offers } from '../../types/offers';
+import { useCallback, useState } from 'react';
 import Sorting from '../../components/sorting/sorting';
 import PlaceCard from '../../components/place-card/place-card';
 import Map from '../map/map';
@@ -12,13 +12,13 @@ type PlacesProp = {
 function CitiesPlacesContainer({ offers }: PlacesProp): JSX.Element {
   const [activeOffer, setActiveOffer] = useState('-1');
 
-  const handleMouseEnter = (offer: Offer): void => {
-    setActiveOffer(offer.id);
-  };
+  const handleMouseEnter = useCallback ((id: string): void => {
+    setActiveOffer(id);
+  }, []);
 
-  const handleMouseLeave = (): void => {
+  const handleMouseLeave = useCallback((): void => {
     setActiveOffer('-1');
-  };
+  }, []);
 
   return (
     <div className="cities">
@@ -34,8 +34,8 @@ function CitiesPlacesContainer({ offers }: PlacesProp): JSX.Element {
               <PlaceCard
                 offer={offer}
                 key={offer.id}
-                handleMouseEnter={() => handleMouseEnter(offer)}
-                handleMouseLeave={() => handleMouseLeave()}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
                 typeCard={TypeCard.City}
               />
             ))}

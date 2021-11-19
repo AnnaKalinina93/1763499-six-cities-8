@@ -1,15 +1,16 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import { useSelector, useDispatch } from 'react-redux';
-import { getFavoritesOffers, getFavoritesOffersLoading } from '../../store/favorites-data/selectors';
+import { getFavoritesChangeOffers, getFavoritesOffersLoading } from '../../store/favorites-data/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { fetchFavoritesOffersAction } from '../../store/favorites-data/api-action';
 import { useEffect } from 'react';
 import FavoritesEmpty from '../favorites-empty/favorites-empty';
 import FavoritesList from '../../components/favorites-list/favorites-list';
+import cn from 'classnames';
 
 function Favorites(): JSX.Element {
-  const favoritesOffers = useSelector(getFavoritesOffers);
+  const favoritesOffers = useSelector(getFavoritesChangeOffers);
   const favoritesOffersLoading = useSelector(getFavoritesOffersLoading);
 
   const dispatch = useDispatch();
@@ -26,19 +27,15 @@ function Favorites(): JSX.Element {
     return <LoadingScreen />;
   }
 
-  if (!favoritesOffers.length) {
-    return <FavoritesEmpty />;
-  }
+  const divClass = cn ('page', {'page--favorites-empty': !Object.keys(favoritesOffers).length});
+  const mainClass = cn ('page__main page__main--favorites', {'page__main--favorites-empty': !Object.keys(favoritesOffers).length});
 
   return (
-    <div className="page">
+    <div className={divClass}>
       <Header />
-      <main className="page__main page__main--favorites">
+      <main className={mainClass}>
         <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesList />
-          </section>
+          {!Object.keys(favoritesOffers).length ? <FavoritesEmpty /> : <FavoritesList offers={favoritesOffers}/>}
         </div>
       </main>
       <Footer />
