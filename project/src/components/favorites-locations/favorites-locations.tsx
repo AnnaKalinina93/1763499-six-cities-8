@@ -1,10 +1,10 @@
-import { Offer } from '../../types/offers';
+import { Offers } from '../../types/offers';
 import { postChangeFavorites } from '../../store/favorites-data/api-action';
 import { useDispatch } from 'react-redux';
 
 type FavoritesLocationsProps = {
-  city: string | Offer[];
-  offers: string | Offer[];
+  city: string;
+  offers: Offers;
 };
 
 function FavoritesLocations({
@@ -17,8 +17,6 @@ function FavoritesLocations({
     dispatch(postChangeFavorites(id, status));
   };
 
-  const myOffers = offers as Offer[];
-
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
@@ -29,7 +27,7 @@ function FavoritesLocations({
         </div>
       </div>
       <div className="favorites__places">
-        {myOffers.map(
+        {offers.map(
           (offer) =>
             offer.isFavorite && (
               <article key={offer.id} className="favorites__card place-card">

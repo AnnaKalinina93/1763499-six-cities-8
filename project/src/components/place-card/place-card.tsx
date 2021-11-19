@@ -5,19 +5,20 @@ import { TypeCard } from '../../const';
 import './place-card.css';
 import { useDispatch } from 'react-redux';
 import { postChangeFavorites } from '../../store/favorites-data/api-action';
+import { memo } from 'react';
 
 type PlaceCardProps = {
   offer: Offer;
   typeCard: string;
-  handleMouseEnter?: () => void;
-  handleMouseLeave?: () => void;
+  onMouseEnter?: (id: string) => void;
+  onMouseLeave?: () => void;
 };
 
 function PlaceCard({
   offer,
   typeCard,
-  handleMouseEnter,
-  handleMouseLeave,
+  onMouseEnter,
+  onMouseLeave,
 }: PlaceCardProps): JSX.Element {
   const dispatch = useDispatch();
   const changeFavorites = (id: string, status: number) => {
@@ -42,8 +43,8 @@ function PlaceCard({
   return (
     <article
       className={placeClass}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={() => onMouseEnter?.(id)}
+      onMouseLeave={() => onMouseLeave?.()}
     >
       {isPremium && (
         <div className="place-card__mark">
@@ -92,4 +93,4 @@ function PlaceCard({
     </article>
   );
 }
-export default PlaceCard;
+export default memo (PlaceCard);

@@ -4,6 +4,7 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { useSelector } from 'react-redux';
 import { History } from 'history';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 type RenderFuncProps = {
   history: History<unknown>;
@@ -17,6 +18,10 @@ function PrivateRoute(props: PrivateRouteProps): JSX.Element {
   const { exact, path, render } = props;
 
   const authorizationStatus = useSelector(getAuthorizationStatus);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown) {
+    return <LoadingScreen/>;
+  }
 
   return (
     <Route
