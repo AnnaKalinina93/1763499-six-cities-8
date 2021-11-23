@@ -27,7 +27,7 @@ export const commentsData = createReducer(initialState, (builder) => {
       state.reviews = action.payload;
     })
 
-    .addCase(commentsFailed, (state, action) => {
+    .addCase(commentsFailed, (state) => {
       state.reviewsLoading = false;
       state.reviewsError = true;
     })

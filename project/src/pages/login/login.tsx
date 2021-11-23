@@ -3,7 +3,7 @@ import LoginForm from '../../components/login-form/login-form';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { citiesList } from '../../const';
-import { getRandomCity } from '../../util';
+import { getRandomCity } from '../../utils/util';
 
 function Login(): JSX.Element {
   return (

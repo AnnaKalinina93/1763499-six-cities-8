@@ -1,5 +1,5 @@
-import { CitiesList, sortType } from './const';
-import { Offers } from './types/offers';
+import { CitiesList, sortType } from '../const';
+import { Offers } from '../types/offers';
 
 function getRandomCity ( obj: CitiesList ): string  {
   const keys = Object.keys(obj);

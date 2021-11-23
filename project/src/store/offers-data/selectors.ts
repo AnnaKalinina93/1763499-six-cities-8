@@ -3,7 +3,7 @@ import { State } from '../../types/state';
 import { Offers, Offer } from '../../types/offers';
 import { createSelector } from 'reselect';
 import { getActiveCity, getActiveSortType } from '../ui-state/selectors';
-import { getSortSelectedOffers } from '../../util';
+import { getSortSelectedOffers } from '../../utils/util';
 
 export const getOffers = (state: State): Offers => state[NameSpace.Offers].offers;
 export const getOffersLoading = (state: State): boolean => state[NameSpace.Offers].offersLoading;

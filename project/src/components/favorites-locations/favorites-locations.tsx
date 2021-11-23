@@ -65,7 +65,7 @@ function FavoritesLocations({
                       >
                         <use xlinkHref="#icon-bookmark"></use>
                       </svg>
-                      <span className="visually-hidden">In bookmarks</span>
+                      <span className="visually-hidden">{offer.isFavorite? 'In bookmarks': 'To bookmarks'}</span>
                     </button>
                   </div>
                   <div className="place-card__rating rating">
