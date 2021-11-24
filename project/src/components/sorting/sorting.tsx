@@ -23,6 +23,7 @@ function Sorting(): JSX.Element {
       <span
         className="places__sorting-type"
         tabIndex={0}
+        data-testid="sort-type"
         onClick={() => setIsOpen(!isOpen)}
       >
         {activeSortType}
@@ -32,6 +33,7 @@ function Sorting(): JSX.Element {
       </span>
       <ul
         className={classOpen}
+        data-testid="sort-option-list"
       >
         {Object.entries(sortType).map(([key, currentType]) => {
           const activeClass = cn('places__option', {
@@ -42,6 +44,7 @@ function Sorting(): JSX.Element {
               key={key}
               className={activeClass}
               tabIndex={0}
+              data-testid={currentType}
               onClick={(evt) => {
                 evt.preventDefault();
                 onUserAnswer(currentType);

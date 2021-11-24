@@ -1,26 +1,28 @@
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { render } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
+import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import FormRating from './form-rating';
+import userEvent from '@testing-library/user-event';
 
-const history = createMemoryHistory();
 const mockStore = configureMockStore();
 describe('Component: FormRating', () => {
   it('should render correctly', () => {
     const {container}= render(
       <Provider store={mockStore({})}>
-        <Router history={history}>
+        <MemoryRouter>
           <FormRating
-            count={'3'}
+            count={'4'}
             title={'tree'}
             onRatingChange={jest.fn()}
-            value={'3'}
+            value={'4'}
           />
-        </Router>
+        </MemoryRouter>
       </Provider>);
 
     expect(container.querySelector('.form__rating-input:checked')).not.toBeNull();
+
+    userEvent.click(screen.getByTestId('4'));
+    expect(screen.getByTestId('4')).toBeChecked();
   });
 });

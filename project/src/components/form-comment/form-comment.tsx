@@ -25,6 +25,7 @@ function FormComment({ id }: FormCommentProps): JSX.Element {
   });
   const isDisabled =
     formState.review.length < MIN_REVIEWS || formState.rating === '0';
+
   const handleChange = ({
     target,
   }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -78,6 +79,7 @@ function FormComment({ id }: FormCommentProps): JSX.Element {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={formState.review}
+        data-testid="review"
         onChange={handleChange}
       />
       <div className="reviews__button-wrapper">

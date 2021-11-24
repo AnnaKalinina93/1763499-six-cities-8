@@ -1,6 +1,6 @@
-import {render, screen} from '@testing-library/react';
-import {Router, Switch, Route} from 'react-router-dom';
-import {createMemoryHistory} from 'history';
+import { render, screen } from '@testing-library/react';
+import { Router, Switch, Route } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 import Logo from './logo';
 import userEvent from '@testing-library/user-event';
 

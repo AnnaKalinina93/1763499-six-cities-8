@@ -43,6 +43,7 @@ function PlaceCard({
   return (
     <article
       className={placeClass}
+      data-testid="place-card"
       onMouseEnter={() => onMouseEnter?.(id)}
       onMouseLeave={() => onMouseLeave?.()}
     >

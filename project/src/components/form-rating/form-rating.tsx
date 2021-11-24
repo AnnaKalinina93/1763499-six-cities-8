@@ -25,6 +25,7 @@ function FormRating({
         id={`${count}-stars`}
         type="radio"
         checked={count === value}
+        data-testid={count}
         onChange={onRatingChange}
       />
       <label

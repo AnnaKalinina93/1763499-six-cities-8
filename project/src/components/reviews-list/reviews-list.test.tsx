@@ -1,12 +1,10 @@
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { render, screen } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
-import { Router} from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { makeFakeReview } from '../../utils/mocks';
 import ReviewsList from './reviews-list';
 
-const history = createMemoryHistory();
 const mockStore = configureMockStore();
 
 const reviews = new Array(3).fill(null).map(()=>(makeFakeReview()));
@@ -14,12 +12,13 @@ describe('Component: ReviewsList', () => {
   it('should render correctly', () => {
     render(
       <Provider store={mockStore({})}>
-        <Router history={history}>
+        <MemoryRouter>
           <ReviewsList reviews={reviews} />
-        </Router>
+        </MemoryRouter>
       </Provider>);
 
     expect(screen.queryAllByAltText('Reviews avatar').length).toEqual(reviews.length);
+    expect(screen.getAllByTestId('review-item').length).toEqual(reviews.length);
   });
 
 });

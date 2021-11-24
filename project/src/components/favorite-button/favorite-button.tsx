@@ -29,7 +29,7 @@ function FavoriteButton({
       <svg className="property__bookmark-icon" width="31" height="33">
         <use xlinkHref="#icon-bookmark"></use>
       </svg>
-      <span className="visually-hidden">To bookmarks</span>
+      <span className="visually-hidden">{!isFavorite ? 'To bookmarks' : 'In bookmarks'}</span>
     </button>
   );
 }

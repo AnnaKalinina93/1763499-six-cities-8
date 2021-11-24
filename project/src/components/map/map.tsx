@@ -57,7 +57,7 @@ function Map({ offers, activeId, typeCard, className }: MapProps): JSX.Element {
       city.location.zoom);
   });
 
-  return <section className={`${className} map`} ref={mapRef}></section>;
+  return <section className={`${className} map`} ref={mapRef} data-testid="map"></section>;
 }
 
 export default Map;

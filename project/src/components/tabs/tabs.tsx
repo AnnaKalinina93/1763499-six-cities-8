@@ -28,6 +28,7 @@ function Tabs(): JSX.Element {
                   <a
                     className={classList}
                     href="/#"
+                    data-testid={city}
                     onClick={(evt) => {
                       evt.preventDefault();
                       onUserAnswer(city);

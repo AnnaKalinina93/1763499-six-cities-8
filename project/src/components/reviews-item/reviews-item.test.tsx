@@ -1,12 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { makeFakeReview } from '../../utils/mocks';
 import ReviewsItem from './reviews-item';
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router';
+import { MemoryRouter } from 'react-router';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 
-const history = createMemoryHistory();
 const mockStore = configureMockStore();
 
 const review = makeFakeReview();
@@ -16,13 +14,13 @@ describe('Component: ReviewsItem', () => {
   it('should render correctly', () => {
     render(
       <Provider store={mockStore({})}>
-        <Router history={history}>
+        <MemoryRouter>
           <ReviewsItem review={review} />
-        </Router>
+        </MemoryRouter>
       </Provider>);
 
     expect(screen.getByAltText(/Reviews avatar/i)).toBeInTheDocument();
     expect(screen.getByText(/Rating/i)).toBeInTheDocument();
-
+    expect(screen.getByText(review.user.name)).toBeInTheDocument();
   });
 });
