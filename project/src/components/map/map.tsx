@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
 import { Icon, Marker} from 'leaflet';
 import { Offers } from '../../types/offers';
-import useMap from '../../hooks/useMap';
+import useMap from '../../hooks/use-map';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 
 type MapProps = {
@@ -57,7 +57,7 @@ function Map({ offers, activeId, typeCard, className }: MapProps): JSX.Element {
       city.location.zoom);
   });
 
-  return <section className={`${className} map`} ref={mapRef}></section>;
+  return <section className={`${className} map`} ref={mapRef} data-testid="map"></section>;
 }
 
 export default Map;

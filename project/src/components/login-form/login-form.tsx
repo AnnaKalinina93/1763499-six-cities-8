@@ -99,6 +99,7 @@ function LoginForm(): JSX.Element {
                 type={key}
                 name={key}
                 placeholder={value}
+                data-testid={key}
                 onChange={handleChange}
               />
               { formState[key].error && formState[key].touched &&

@@ -3,7 +3,7 @@ import LoginForm from '../../components/login-form/login-form';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { citiesList } from '../../const';
-import { getRandomCity } from '../../util';
+import { getRandomCity } from '../../utils/util';
 
 function Login(): JSX.Element {
   return (
@@ -14,7 +14,7 @@ function Login(): JSX.Element {
           <LoginForm />
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to={AppRoute.Main}>
+              <Link className="locations__item-link" data-testid="random-city" to={AppRoute.Main}>
                 <span>{getRandomCity(citiesList)}</span>
               </Link>
             </div>
