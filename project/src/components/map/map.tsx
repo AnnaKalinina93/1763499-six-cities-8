@@ -8,7 +8,6 @@ import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 type MapProps = {
   offers: Offers;
   activeId: string;
-  typeCard: string;
   className: string;
 };
 
@@ -27,7 +26,7 @@ const currentCustomIcon = new Icon({
   iconAnchor: [15, 40],
 });
 
-function Map({ offers, activeId, typeCard, className }: MapProps): JSX.Element {
+function Map({ offers, activeId, className }: MapProps): JSX.Element {
   const cityActive = offers[0];
   const mapRef = useRef(null);
   const map = useMap(mapRef, cityActive);

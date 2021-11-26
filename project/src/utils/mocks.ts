@@ -202,3 +202,4 @@ export const makeFakeStoreWithoutAuthorization = (): State => ({
     favoritesOffer: null,
   },
 });
+

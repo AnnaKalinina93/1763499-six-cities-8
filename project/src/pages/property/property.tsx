@@ -167,7 +167,6 @@ function Property(): JSX.Element {
             className={'property__map'}
             offers={nearbyOffers.slice(0, COUNT_NEARBY_OFFERS).concat(offer)}
             activeId={offer.id}
-            typeCard={TypeCard.Property}
           />
         </section>
 
